@@ -1,19 +1,22 @@
 project:
   type: website
+  output-dir: docs
 
 website:
   title: "R4SPISE2024"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+      - href: pages/A_DataWines.qmd
+        text: The Wines
+      - href: about.qmd
+        text: About us
+      - icon: github
+        href: https://github.com/vguillemot/R4SPISE2024
+        
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
-
-editor: visual
-
+    

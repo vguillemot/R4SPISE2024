@@ -50,3 +50,5 @@ rsconnect/
 
 # Maceries
 *.DS_Store
+
+/.quarto/

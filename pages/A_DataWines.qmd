@@ -12,9 +12,9 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  echo = TRUE, 
-  dev = "svg",
-  fig.ext = "svg"
+  echo = TRUE#, 
+  # dev = "svg",
+  # fig.ext = "svg"
 )
 library(dplyr)
 library(knitr)
@@ -35,7 +35,6 @@ wineColors <- winesOf3Colors$winesDescriptors$color
 wineColors <- as.character(recode(wineColors, red = 'indianred4', 
                 white = 'gold', rose = 'lightpink2'))
 ```
-
 
 ## Argentina {.smaller}
 
@@ -79,10 +78,10 @@ wines_usa %>%
 
 ## Four tables
 
- * Descriptors: `origin`, `color` and `varietal`;
- * Suplementary variables: `Price`;
- * Chemical data: `Acidity`, `Alcohol`, `Sugar`, and `Tannin`;
- * Sensory data: `fruity`, `floral`, `vegetal`, `spicy`, `woody`, `sweet`, `astringent`, and `hedonic.`
+-   Descriptors: `origin`, `color` and `varietal`;
+-   Suplementary variables: `Price`;
+-   Chemical data: `Acidity`, `Alcohol`, `Sugar`, and `Tannin`;
+-   Sensory data: `fruity`, `floral`, `vegetal`, `spicy`, `woody`, `sweet`, `astringent`, and `hedonic.`
 
 ```{r four table, echo = FALSE}
 descr <- winesOf3Colors$winesDescriptors %>% 
@@ -98,7 +97,6 @@ senso <- winesOf3Colors$winesDescriptors %>%
 ```
 
 ## The sensory scores
-
 
 ```{r sensoplot, echo = FALSE, fig.width = 8, fig.height = 5}
 senso_long <- tibble(
@@ -124,5 +122,3 @@ senso_long <- tibble(
     coord_flip() + 
     theme(legend.position = "bottom")
 ```
-
-

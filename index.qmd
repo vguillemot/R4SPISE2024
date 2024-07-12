@@ -2,10 +2,5 @@
 title: "R4SPISE2024"
 ---
 
-This is a Quarto website.
+Here, you will find data, programs, and documentation for the SPISE-2024 *Advanced Workshop on Sensory Evaluation* (from July 22 to July 27, Ho Chi Minh City).
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```

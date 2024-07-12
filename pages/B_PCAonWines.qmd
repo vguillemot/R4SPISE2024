@@ -8,32 +8,30 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{=html}
 <style type="text/css">
 body {
   font-size: 14pt;
 }
 </style>
-
+```
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   echo = TRUE, 
-  dev = "svg",
-  fig.ext = "svg", 
+  # dev = "svg",
+  # fig.ext = "svg", 
   fig.width = 7, 
   fig.height = 7
 )
 ```
 
-
-In this vignette we show how
-to perform a principal component analysis
+In this vignette we show how to perform a principal component analysis
 
 ## Load the libraries
 
-The following  code loads the libraries needed
-for the analysis:
+The following code loads the libraries needed for the analysis:
 
 ```{r loadlib, message = FALSE, warning = FALSE,error = FALSE}
 library(dplyr)
@@ -47,10 +45,7 @@ set.seed(564)
 
 ## Load the data
 
-The data for this example come from
-the package `data4PCCAR` (which is loaded
-with the present package).
-The following commands get the data:
+The data for this example come from the package `data4PCCAR` (which is loaded with the present package). The following commands get the data:
 
 ```{r beers, warning=FALSE, message=FALSE}
 
@@ -60,14 +55,14 @@ beers <- sixBeers12Descriptors10Judges$ratingsIntensity
 beerColors <- sixBeers12Descriptors10Judges$color4Products
 descColors <- sixBeers12Descriptors10Judges$color4Descriptors
 ```
+
 These data comprise three items
 
- * `beers`: the ratings (a data frame with intensity ratings);
- * `beerColors`: a vector with the names of the colors for the beers;
- * `descColors`: a vector with the names of the colors for the descriptors.
+-   `beers`: the ratings (a data frame with intensity ratings);
+-   `beerColors`: a vector with the names of the colors for the beers;
+-   `descColors`: a vector with the names of the colors for the descriptors.
 
 More information on the dataset is available on the corresponding vignette: `vignette("A1_DataBeers")`.
-
 
 ## Run the Principal Component Analysis (PCA)
 
@@ -78,18 +73,7 @@ res.pca <- epPCA(beers,
                  graphs = FALSE) 
 ```
 
-By default, 
-this function will preprocess the variables in the darta set
-(i.e., the columns of the data table) 
-by 1) centering them (`option center = TRUE` 
-after pre-processing all variables 
- have mean equals to  0) 
- and 2)
-scaling them
-(`option scale = TRUE` 
-after pre-processing all variables 
- have a sum of squares equals to  \eqn{N - 1},
- \eqn{N} being the number of rows).
+By default, this function will preprocess the variables in the darta set (i.e., the columns of the data table) by 1) centering them (`option center = TRUE` after pre-processing all variables have mean equals to 0) and 2) scaling them (`option scale = TRUE` after pre-processing all variables have a sum of squares equals to \eqn{N - 1}, \eqn{N} being the number of rows).
 
 ## Plot the results
 
@@ -100,10 +84,10 @@ res.plot.pca <- OTAplot(
     )
 ```
 
- * `results.stats`: useful statistics after performing PCA, among which one can find the factor scores, loadings, eigenvalues, and contributions;
- * `results.graphs`: all the PCA graphs (heatmaps, screeplot, factor map, correlation circles, loading maps etc.) 
- * `description.graphs`: the titles of these graphs, used as titles in the PPTX file.
- 
+-   `results.stats`: useful statistics after performing PCA, among which one can find the factor scores, loadings, eigenvalues, and contributions;
+-   `results.graphs`: all the PCA graphs (heatmaps, screeplot, factor map, correlation circles, loading maps etc.)
+-   `description.graphs`: the titles of these graphs, used as titles in the PPTX file.
+
 ### Correlations of the variables
 
 We can check the data by plotting the correlation matrix between the variables. This correlation matrix is where the components are extracted.
@@ -114,22 +98,17 @@ res.plot.pca$results.graphs$correlation
 
 ### Scree plot
 
-The scree plot shows the eigenvalues of each component. These eigenvalues give the _variance_ of each component (or called dimension in the figure). In other words, the singular values, which are the square root of the eigenvalues, give the _standard deviations_ of these components. The sum of the eigenvalues is equal to the total inertia of the data.
+The scree plot shows the eigenvalues of each component. These eigenvalues give the *variance* of each component (or called dimension in the figure). In other words, the singular values, which are the square root of the eigenvalues, give the *standard deviations* of these components. The sum of the eigenvalues is equal to the total inertia of the data.
 
 ```{r scree}
 res.plot.pca$results.graphs$scree
 ```
 
-According to the elbow test, 
-there are four dimensions to keep for these data.
+According to the elbow test, there are four dimensions to keep for these data.
 
 ### Factor scores (rows)
 
-Here, the observation map shows how the observations (i.e., rows) are represented in the component space. 
-If `center = TRUE` when running a PCA
-with `epPCA`, the origin is at the center
-(i.e., is the average / barycenter)
-of all observations. (If it's not, something's wrong)
+Here, the observation map shows how the observations (i.e., rows) are represented in the component space. If `center = TRUE` when running a PCA with `epPCA`, the origin is at the center (i.e., is the average / barycenter) of all observations. (If it's not, something's wrong)
 
 ```{r factor scores}
 res.plot.pca$results.graphs$factorScoresI12
@@ -139,7 +118,7 @@ The result in this plot showed that the first dimension separates `BlueMoon` fro
 
 ### Circle of correlation
 
-The circle of correlations illustrate how the variables are correlated with each other and with the dimensions. From this figure, the length of an arrow indicates how much this variable is explained by the two given dimensions. The cosine between any two arrows gives their correlation. The cosine between a variable and an axis gives the correlation between that variable and the corresponding dimension. 
+The circle of correlations illustrate how the variables are correlated with each other and with the dimensions. From this figure, the length of an arrow indicates how much this variable is explained by the two given dimensions. The cosine between any two arrows gives their correlation. The cosine between a variable and an axis gives the correlation between that variable and the corresponding dimension.
 
 In this figure, an angle closer to 0° indicates a correlation close to 1; an angle closer to 180° indicates a correlation close to -1; and an 90° angle indicates 0 correlation. However, it's worth noted that this implication of correlation might only be true within the given dimensions. When a variable is far away from the circle, it is not fully explained by the dimensions, and other dimensions might be characterized by other pattern of relationship between this and other variables.
 
@@ -162,17 +141,17 @@ res.plot.pca.inference <- OTAplotInference(
 
 ### Bootstrap and permutation tests on the eigenvalues
 
-The inference scree plot illustrates the 95\% bootstrap confidence intervals of the percentage of variance explained by each eigenvalue. If an interval includes 0, the component explains reliably larger than 0\% of the variance.
+The inference scree plot illustrates the 95% bootstrap confidence intervals of the percentage of variance explained by each eigenvalue. If an interval includes 0, the component explains reliably larger than 0% of the variance.
 
 ```{r scree inference, warning = FALSE, message = FALSE}
 res.plot.pca.inference$results.graphs$scree
 ```
 
-The bootstrap test identifies one significant dimension explains the variance reliably larger than 0\%. The permutation test identifies one significant dimension with an eigenvalue significantly larger than 0.
+The bootstrap test identifies one significant dimension explains the variance reliably larger than 0%. The permutation test identifies one significant dimension with an eigenvalue significantly larger than 0.
 
 ### Bootstrap test on the column factor scores
 
-The bar plot illustrates the _bootstrap ratios_ which equals $$\frac{M_{g_{j}boot}}{SD_{g_{j}boot}},$$ where $M_{g_{j}boot}$ is the mean of the bootstrapped sample of the *j*th column factor score and $SD_{g_{j}boot}$ is the bootstrapped standard deviation of the factor score. A bootstrap ratio is equivalent to a _t_-statistics for the column factor score with the $\mathrm{H}_0: g_j = 0$. The threshold is set to 2 to approximate the critical _t_-value of 1.96 at $\alpha$ = .05.
+The bar plot illustrates the *bootstrap ratios* which equals $$\frac{M_{g_{j}boot}}{SD_{g_{j}boot}},$$ where $M_{g_{j}boot}$ is the mean of the bootstrapped sample of the *j*th column factor score and $SD_{g_{j}boot}$ is the bootstrapped standard deviation of the factor score. A bootstrap ratio is equivalent to a *t*-statistics for the column factor score with the $\mathrm{H}_0: g_j = 0$. The threshold is set to 2 to approximate the critical *t*-value of 1.96 at $\alpha$ = .05.
 
 ```{r bootstrap ratios 1, fig.height = 4}
 res.plot.pca.inference$results.graphs$BR1

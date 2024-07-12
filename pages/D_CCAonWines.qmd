@@ -7,19 +7,22 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{=html}
 <style type="text/css">
 body {
   font-size: 14pt;
 }
 </style>
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   echo = TRUE, 
-  dev = "svg",
-  fig.ext = "svg", 
+  # dev = "svg",
+  # fig.ext = "svg", 
   fig.width = 7, 
   fig.height = 7
 )
@@ -60,7 +63,6 @@ varColors$oc[[2]] <- as.matrix(rep("olivedrab3", 8))
 
 More information on the dataset is available on the corresponding vignette: `vignette("A3_DataWines")`.
 
-
 ## Two tables with descriptors and other supplementary information
 
 ```{r four table, echo = TRUE}
@@ -78,8 +80,8 @@ senso <- winesOf3Colors$winesDescriptors %>%
 
 ### Two data tables
 
- * First table: chemical data (`chemi`) that includes `acidity`, `alcohol`, `sugar`, and `tannin`.
- * Second table: sensory data (`senso`) that includes `fruity`, `floral`, `vegetal`, `spicy`, `woody`, `sweet`, `astringent`, and `hedonic`.
+-   First table: chemical data (`chemi`) that includes `acidity`, `alcohol`, `sugar`, and `tannin`.
+-   Second table: sensory data (`senso`) that includes `fruity`, `floral`, `vegetal`, `spicy`, `woody`, `sweet`, `astringent`, and `hedonic`.
 
 ```{r chemi, eval = FALSE, echo = FALSE, results='asis'}
 ### First table: chemical data
@@ -94,7 +96,6 @@ senso <- winesOf3Colors$winesDescriptors %>%
 #     row_spec(0, angle = 0, align = "right", font_size = fontsize)
 ```
 
-
 ```{r senso, eval = FALSE, echo = FALSE}
 ### Second table: sensory data
 # senso %>%
@@ -107,16 +108,16 @@ senso <- winesOf3Colors$winesDescriptors %>%
 
 ### Descriptors and supplementary variable
 
- * Descriptors: `origin`, `color` and `varietal`.
- * Supplementary variables: `Price`.
- 
+-   Descriptors: `origin`, `color` and `varietal`.
+-   Supplementary variables: `Price`.
+
 ## Run Canonical Correlation Analysis (CCA) on the two tables
 
 ```{r run}
 res.cca <- tepCCA(chemi, senso, DESIGN = descr$color, graphs = FALSE)
 ```
 
-The default of this function will center (to have means equal 0) and scale (to have the _sums of squares_ equal 1) all variables in both data tables. The argument `DESIGN` indicates the groups of the observations and change how the observations are colored in the figures (when `graphs = TRUE`), but it does not change the results of CCA.
+The default of this function will center (to have means equal 0) and scale (to have the *sums of squares* equal 1) all variables in both data tables. The argument `DESIGN` indicates the groups of the observations and change how the observations are colored in the figures (when `graphs = TRUE`), but it does not change the results of CCA.
 
 ## Generate the figures
 
@@ -147,7 +148,7 @@ res.cca.plot$results.graphs$heatmap.rxy
 
 ### Scree plot
 
-The scree plot shows the eigenvalues of each dimension. These eigenvalues give the squared _correlation_ ($R^2$ = `r res.cca$TExPosition.Data$eigs[1]`) of each pair of latent variables. In other words, the singular values, which are the square root of the eigenvalues, give the _correlation_ ($r$ = `r res.cca$TExPosition.Data$pdq$Dv[1]`) of these pairs of latent variables. The sum of the eigenvalues is equal to the sum of the squared correlation between all variables in both tables.
+The scree plot shows the eigenvalues of each dimension. These eigenvalues give the squared *correlation* ($R^2$ = `r res.cca$TExPosition.Data$eigs[1]`) of each pair of latent variables. In other words, the singular values, which are the square root of the eigenvalues, give the *correlation* ($r$ = `r res.cca$TExPosition.Data$pdq$Dv[1]`) of these pairs of latent variables. The sum of the eigenvalues is equal to the sum of the squared correlation between all variables in both tables.
 
 ```{r scree, fig.height = 4}
 res.cca.plot$results.graphs$scree.eig
@@ -155,11 +156,11 @@ res.cca.plot$results.graphs$scree.eig
 
 ### Latent variables
 
-Here, we plot the first latent variable of both tables against each other with the observations colored according to their groups. This plot shows how the observations are distributed on the dimension and how the chosen pair of latent variables are related to each other. When plotting the first pair of latent variables, we expect the _observations_ to distribute along the bottom-left-to-top-right diagonal line (which illustrates a perfect correlation), because CCA maximizes the _correlation_ of the latent variables.
+Here, we plot the first latent variable of both tables against each other with the observations colored according to their groups. This plot shows how the observations are distributed on the dimension and how the chosen pair of latent variables are related to each other. When plotting the first pair of latent variables, we expect the *observations* to distribute along the bottom-left-to-top-right diagonal line (which illustrates a perfect correlation), because CCA maximizes the *correlation* of the latent variables.
 
-To examine the stability of these groups, we plot the group means with their 95% bootstrap confidence intervals (or ellipsoids). If the ellipses do not overlap, the groups are reliably different from each other. However, it's worth noted that the distribution of the _observations_ does not imply how the _groups_ (represented by the group means) are distributed or whether the groups are reliably different from each other. 
+To examine the stability of these groups, we plot the group means with their 95% bootstrap confidence intervals (or ellipsoids). If the ellipses do not overlap, the groups are reliably different from each other. However, it's worth noted that the distribution of the *observations* does not imply how the *groups* (represented by the group means) are distributed or whether the groups are reliably different from each other.
 
-_Note_: The grouping information are independent from CCA and are only use to help provide a summary description of the observations.
+*Note*: The grouping information are independent from CCA and are only use to help provide a summary description of the observations.
 
 ```{r LV map}
 res.cca.plot$results.graphs$lv.plot
@@ -169,11 +170,11 @@ The results from Dimension 1 show that the association between the chemical and 
 
 ### Contributions
 
-These bar plots illustrate the signed _contribution_ of variables from the two data tables. From these figures, we use the direction and the magnitude of these signed contributions to interpret the dimension.
+These bar plots illustrate the signed *contribution* of variables from the two data tables. From these figures, we use the direction and the magnitude of these signed contributions to interpret the dimension.
 
-The direction of the signed contribution is the direction of the loadings, and it shows _how_ the variables contribute to the dimension. The variables that contribute in a similar way have the same sign, and those that contribute in an opposite way will have different signs.
+The direction of the signed contribution is the direction of the loadings, and it shows *how* the variables contribute to the dimension. The variables that contribute in a similar way have the same sign, and those that contribute in an opposite way will have different signs.
 
-The magnitude of the contributions are computed as squared loadings, and they quantify the amount of variance contributed by each variable. Therefore, contribution is similar to the idea of an _effect size_. To identify the important variables, we find the variables that contribute more than average (i.e., with a big enough effect size). When the variables are centered and scaled to have their _sums of squares equals 1_, each variable contributes one unit of variance; therefore, the average contribution is 1/(# of variables of the table).
+The magnitude of the contributions are computed as squared loadings, and they quantify the amount of variance contributed by each variable. Therefore, contribution is similar to the idea of an *effect size*. To identify the important variables, we find the variables that contribute more than average (i.e., with a big enough effect size). When the variables are centered and scaled to have their *sums of squares equals 1*, each variable contributes one unit of variance; therefore, the average contribution is 1/(# of variables of the table).
 
 ```{r loadings, fig.height = 4}
 res.cca.plot$results.graphs$ctrX.plot
@@ -186,7 +187,7 @@ Together with the latent variable plot, we found that, as compared to the rose a
 
 ### Circles of correlations
 
-The circle of correlations illustrate how the variables are correlated with each other and with the dimensions. From this figure, the length of an arrow indicates how much this variable is explained by the two given dimensions. The cosine between any two arrows gives their correlation. The cosine between a variable and an axis gives the correlation between that variable and the corresponding dimension. 
+The circle of correlations illustrate how the variables are correlated with each other and with the dimensions. From this figure, the length of an arrow indicates how much this variable is explained by the two given dimensions. The cosine between any two arrows gives their correlation. The cosine between a variable and an axis gives the correlation between that variable and the corresponding dimension.
 
 In this figure, an angle closer to 0° indicates a correlation close to 1; an angle closer to 180° indicates a correlation close to -1; and an 90° angle indicates 0 correlation. However, it's worth noted that this implication of correlation might only be true within the given dimensions. When a variable is far away from the circle, it is not fully explained by the dimensions, and other dimensions might be characterized by other pattern of relationship between this and other variables.
 
@@ -213,15 +214,16 @@ The inference analysis of CCA is still under development.
 #     )
 ```
 
+```{=html}
 <!--- ### Bootstrap and permutation tests on the eigenvalues
 
 The inference scree plot illustrates the 95\% bootstrap confidence intervals of the eigenvalues. If an interval includes 0, the eigenvalue is reliably larger than 0.--->
-
+```
 ```{r scree inference, warning = FALSE, message = FALSE, echo = FALSE, include = FALSE}
 # res.plot.cca.inference$results.graphs$scree
 ```
 
- <!-- The bootstrap test identifies one significant dimension having eigenvalue reliably larger than 0. The permutation test identifies one significant dimension with an eigenvalue significantly larger than 0.  -->
+<!-- The bootstrap test identifies one significant dimension having eigenvalue reliably larger than 0. The permutation test identifies one significant dimension with an eigenvalue significantly larger than 0.  -->
 
 <!-- ### Bootstrap test on the loadings -->
 
