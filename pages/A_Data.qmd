@@ -1,11 +1,9 @@
 ---
 title: "A Sensory Data Set on Wines of The World"
-author: "Vincent Guillemot, Hervé Abdi, Ju-Chi Yu & Soudeh Ardestani Khoubrouy"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{A Sensory Data Set on Wines of The World}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+format:
+  html:
+    code-fold: true
+    code-summary: "R code"
 ---
 
 ```{r setup, include=FALSE}

@@ -2,5 +2,5 @@
 title: "R4SPISE2024"
 ---
 
-Here, you will find data, programs, and documentation for the SPISE-2024 *Advanced Workshop on Sensory Evaluation* (from July 22 to July 27, Ho Chi Minh City).
+Here, you will find data, programs, and documentation for the SPISE2024 Workshop *A multi-dimensional approach using MCA, MFA, and PLS with R* (from July 24 to July 25, Ho Chi Minh City).
 

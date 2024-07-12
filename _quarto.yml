@@ -6,8 +6,12 @@ website:
   title: "R4SPISE2024"
   navbar:
     left:
-      - href: pages/A_DataWines.qmd
+      - href: pages/A_Data.qmd
         text: The Wines
+      - href: pages/B_PCA.qmd
+        text: PCA
+      - href: pages/C_PLSC.qmd
+        text: PLSC
       - href: about.qmd
         text: About us
       - icon: github
