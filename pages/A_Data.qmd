@@ -22,7 +22,7 @@ library(ggplot2)
 
 ## Load the data
 
-With the following command
+To load the data, use the following command
 
 ```{r winesOf3Colors}
 data("winesOf3Colors", package = "data4PCCAR")
