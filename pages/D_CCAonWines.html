@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Vincent Guillemot, Hervé Abdi, Ju-Chi Yu &amp; Soudeh Ardestani Khoubrouy">
 
 <title>R4SPISE2024 - Canonical Correlation Analysis on Wines</title>
 <style>
@@ -153,12 +152,25 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Home</span></a>
+    <a class="nav-link" href="../pages/A_Data.html"> 
+<span class="menu-text">The Wines</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/B_PCA.html"> 
+<span class="menu-text">PCA</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/C_PLSC.html"> 
+<span class="menu-text">PLSC</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../about.html"> 
-<span class="menu-text">About</span></a>
+<span class="menu-text">About us</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/vguillemot/R4SPISE2024"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -208,12 +220,6 @@ window.Quarto = {
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Vincent Guillemot, Hervé Abdi, Ju-Chi Yu &amp; Soudeh Ardestani Khoubrouy </p>
-          </div>
-  </div>
     
   
     
@@ -224,28 +230,31 @@ window.Quarto = {
 </header>
 
 
-<style type="text/css">
-body {
-  font-size: 14pt;
-}
-</style>
 <section id="load-the-course-library" class="level2">
 <h2 class="anchored" data-anchor-id="load-the-course-library">Load the course library</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R4SPISE2022)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="load-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="load-the-data">Load the data</h2>
 <p>With the following command</p>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"winesOf3Colors"</span>, <span class="at">package =</span> <span class="st">"data4PCCAR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>More information on the dataset is available on the corresponding vignette: <code>vignette("A3_DataWines")</code>.</p>
 </section>
 <section id="two-tables-with-descriptors-and-other-supplementary-information" class="level2">
 <h2 class="anchored" data-anchor-id="two-tables-with-descriptors-and-other-supplementary-information">Two tables with descriptors and other supplementary information</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>descr <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(origin, color, varietal)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>suppl <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
@@ -256,6 +265,7 @@ body {
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(fruity, floral, vegetal, </span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>           spicy, woody, sweet, astringent, </span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>           hedonic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <section id="two-data-tables" class="level3">
 <h3 class="anchored" data-anchor-id="two-data-tables">Two data tables</h3>
@@ -275,13 +285,18 @@ body {
 <section id="run-canonical-correlation-analysis-cca-on-the-two-tables" class="level2">
 <h2 class="anchored" data-anchor-id="run-canonical-correlation-analysis-cca-on-the-two-tables">Run Canonical Correlation Analysis (CCA) on the two tables</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res.cca <span class="ot">&lt;-</span> <span class="fu">tepCCA</span>(chemi, senso, <span class="at">DESIGN =</span> descr<span class="sc">$</span>color, <span class="at">graphs =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>The default of this function will center (to have means equal 0) and scale (to have the <em>sums of squares</em> equal 1) all variables in both data tables. The argument <code>DESIGN</code> indicates the groups of the observations and change how the observations are colored in the figures (when <code>graphs = TRUE</code>), but it does not change the results of CCA.</p>
 </section>
 <section id="generate-the-figures" class="level2">
 <h2 class="anchored" data-anchor-id="generate-the-figures">Generate the figures</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## You might need to load these packages if the error is saying that it couldn't find some functions</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(PTCA4CATA) </span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(data4PCCAR)</span></span>
@@ -294,13 +309,17 @@ body {
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">DESIGN =</span> descr<span class="sc">$</span>color, <span class="co"># design for the wines</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab1 =</span> chemi,  <span class="co"># First data table</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab2 =</span> senso)  <span class="co"># Second data table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>In this <code>TTAplot</code> function, if <code>DESIGN</code> is specified. The latent variables will be colored according to the groups of the observations with the group means and their 95% bootstrap confidence intervals.</p>
 <section id="correlation-between-the-two-tables" class="level3">
 <h3 class="anchored" data-anchor-id="correlation-between-the-two-tables">Correlation between the two tables</h3>
 <p>We can check the data by plotting first the correlation matrix between the two data sets. This correlation matrix is where the dimensions are extracted.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res.cca.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>heatmap.rxy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -314,7 +333,10 @@ body {
 <h3 class="anchored" data-anchor-id="scree-plot">Scree plot</h3>
 <p>The scree plot shows the eigenvalues of each dimension. These eigenvalues give the squared <em>correlation</em> (<span class="math inline">\(R^2\)</span> = 0.9497911) of each pair of latent variables. In other words, the singular values, which are the square root of the eigenvalues, give the <em>correlation</em> (<span class="math inline">\(r\)</span> = 0.9745723) of these pairs of latent variables. The sum of the eigenvalues is equal to the sum of the squared correlation between all variables in both tables.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res.cca.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>scree.eig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -330,7 +352,10 @@ body {
 <p>To examine the stability of these groups, we plot the group means with their 95% bootstrap confidence intervals (or ellipsoids). If the ellipses do not overlap, the groups are reliably different from each other. However, it’s worth noted that the distribution of the <em>observations</em> does not imply how the <em>groups</em> (represented by the group means) are distributed or whether the groups are reliably different from each other.</p>
 <p><em>Note</em>: The grouping information are independent from CCA and are only use to help provide a summary description of the observations.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>res.cca.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>lv.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -347,7 +372,10 @@ body {
 <p>The direction of the signed contribution is the direction of the loadings, and it shows <em>how</em> the variables contribute to the dimension. The variables that contribute in a similar way have the same sign, and those that contribute in an opposite way will have different signs.</p>
 <p>The magnitude of the contributions are computed as squared loadings, and they quantify the amount of variance contributed by each variable. Therefore, contribution is similar to the idea of an <em>effect size</em>. To identify the important variables, we find the variables that contribute more than average (i.e., with a big enough effect size). When the variables are centered and scaled to have their <em>sums of squares equals 1</em>, each variable contributes one unit of variance; therefore, the average contribution is 1/(# of variables of the table).</p>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res.cca.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrX.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -355,7 +383,10 @@ body {
 </figure>
 </div>
 </div>
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res.cca.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrY.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -372,7 +403,10 @@ body {
 <p>The circle of correlations illustrate how the variables are correlated with each other and with the dimensions. From this figure, the length of an arrow indicates how much this variable is explained by the two given dimensions. The cosine between any two arrows gives their correlation. The cosine between a variable and an axis gives the correlation between that variable and the corresponding dimension.</p>
 <p>In this figure, an angle closer to 0° indicates a correlation close to 1; an angle closer to 180° indicates a correlation close to -1; and an 90° angle indicates 0 correlation. However, it’s worth noted that this implication of correlation might only be true within the given dimensions. When a variable is far away from the circle, it is not fully explained by the dimensions, and other dimensions might be characterized by other pattern of relationship between this and other variables.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res.cca.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>cirCorX.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -380,7 +414,10 @@ body {
 </figure>
 </div>
 </div>
+<details class="code-fold">
+<summary>R code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res.cca.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>cirCorY.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
