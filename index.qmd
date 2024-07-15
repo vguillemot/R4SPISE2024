@@ -1,6 +1,66 @@
 ---
 title: "R4SPISE2024"
+format:
+  html:
+    code-fold: true
+    code-summary: "R code"
 ---
 
 Here, you will find data, programs, and documentation for the SPISE2024 Workshop *A multi-dimensional approach using MCA, MFA, and PLS with R* (from July 24 to July 25, Ho Chi Minh City).
+
+## Reproducible examples in R
+
+Students who are proficient in R are invited to check our reproducible examples out: all the data and code is available on this companion website.
+
+All the necessary code to generate the figures and tables "hidden" in collapsed chunks of codes, like this one below.
+
+Click on the arrow to see the R code.
+
+```{r example R code, eval = FALSE}
+# This is a comment!
+# And this, below, is a line of R code.
+# Copy and paste it in your own R console
+# to compute the median of three numbers: 
+# -1, 0, and 1
+median(-1:1)
+# (the result will and should not surprise you)
+```
+
+
+### Install our companion package
+
+We made the data, as well as cool functions to plot your results, available in an R package that you can dowload and install with `pak`.
+
+```{r install, eval = FALSE, collapse=FALSE}
+#| code-fold: false
+## If needed, install pak first
+install.packages("pak")
+## Install R4SPISE2022
+pak::pak("HerveAbdi/R4SPISE2022")
+```
+
+The ouput that you will get will depend on what is already installed on your computer, but should look like this:
+
+```
+→ Will install 1 package.
+→ Will download 1 package with unknown size.
++ R4SPISE2022   0.0.0.9000 👷🏿️🔧 ⬇ (GitHub: --------)
+ℹ Getting 1 pkg with unknown size
+✔ Got R4SPISE2022 0.0.0.9000 (source) (7.85 MB)             
+✔ Downloaded 1 package (7.85 MB) in 21.8s                   
+ℹ Packaging R4SPISE2022 0.0.0.9000
+✔ Packaged R4SPISE2022 0.0.0.9000 (7.4s)                    
+ℹ Building R4SPISE2022 0.0.0.9000 
+✔ Built R4SPISE2022 0.0.0.9000 (2.8s) 
+```
+
+### Test
+
+To test the installation, run the following chunk of code that will show the help file of function `OTAplot`.
+
+```{r test installation}
+library(R4SPISE2022)
+?OTAplot
+```
+
 

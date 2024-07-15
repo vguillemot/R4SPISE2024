@@ -1,5 +1,5 @@
 ---
-title: "PCA on Beers"
+title: "PCA on Wines"
 format:
   html:
     code-fold: true
