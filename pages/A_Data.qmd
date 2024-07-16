@@ -51,7 +51,9 @@ wineColors <- as.character(recode(wineColors, red = 'indianred4',
 
 # Data
 
-The data is shown in the following tables for the 3 countries of origin: Argentina, Canada, and USA.
+The data for the wines of the 3 colors example
+are shown in the following tables 
+for the 3 countries of origin: Argentina, Canada, and USA.
 
 ::: {.panel-tabset}
 
