@@ -12,6 +12,10 @@ website:
         text: PCA
       - href: pages/C_PLSC.qmd
         text: PLSC
+      - href: pages/D_MFA.qmd
+        text: MFA
+      - href: pages/E_PLSR.qmd
+        text: PLS-R
       - href: about.qmd
         text: About us
       - icon: github

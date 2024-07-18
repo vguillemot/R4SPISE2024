@@ -104,7 +104,7 @@ wines_usa %>%
 There are four types of variables in the data:
 
 -   Descriptors: `origin`, `color` and `varietal`;
--   Suplementary variables: `Price`;
+-   Supplementary variables: `Price`;
 -   Chemical data: `Acidity`, `Alcohol`, `Sugar`, and `Tannin`;
 -   Sensory data: `fruity`, `floral`, `vegetal`, `spicy`, `woody`, `sweet`, `astringent`, and `hedonic.`
 
