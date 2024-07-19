@@ -34,44 +34,45 @@ library(InPosition)
 set.seed(564)
 ```
 
-## Load the data
+## Load the Wine data
 
-The data for this example come from the package `data4PCCAR` (which is loaded with the present package). The following commands get the data:
+With the following command
 
-```{r beers, warning=FALSE, message=FALSE}
-
-library(R4SPISE2022)
-data("sixBeers12Descriptors10Judges", package = "data4PCCAR")
-beers <- sixBeers12Descriptors10Judges$ratingsIntensity
-beerColors <- sixBeers12Descriptors10Judges$color4Products
-descColors <- sixBeers12Descriptors10Judges$color4Descriptors
+```{r winesOf3Colors}
+data("winesOf3Colors", package = "data4PCCAR")
+wines <- winesOf3Colors$winesDescriptors[,4:17]
 ```
 
-These data comprise three items
+```{r hidden.colors, echo = TRUE}
+wineColors <- list()
+wineColors$oc <- as.matrix(as.character(recode(winesOf3Colors$winesDescriptors$color, red = 'indianred4', 
+                white = 'gold', rose = 'lightpink2')))
+wineColors$gc <- as.matrix(c(red = 'indianred4', 
+                white = 'gold', rose = 'lightpink2'))
 
--   `beers`: the ratings (a data frame with intensity ratings);
--   `beerColors`: a vector with the names of the colors for the beers;
--   `descColors`: a vector with the names of the colors for the descriptors.
-
-More information on the dataset is available on the corresponding vignette: `vignette("A1_DataBeers")`.
+varColors <- list()
+varColors$oc[[1]] <- as.matrix(rep("darkorange1", 4))
+varColors$oc[[2]] <- as.matrix(rep("olivedrab3", 8))
+    
+```
 
 ## Run the Principal Component Analysis (PCA)
 
 ```{r epPCA}
-res.pca <- epPCA(beers, 
+res.pca <- epPCA(wines, 
                  center = TRUE, # Center the data
-                 scale = FALSE, # **Do not** scale the variables
+                 scale = TRUE, # Normalize the variables
                  graphs = FALSE) 
 ```
 
-By default, this function will preprocess the variables in the darta set (i.e., the columns of the data table) by 1) centering them (`option center = TRUE` after pre-processing all variables have mean equals to 0) and 2) scaling them (`option scale = TRUE` after pre-processing all variables have a sum of squares equals to \eqn{N - 1}, \eqn{N} being the number of rows).
+By default, this function will preprocess the variables in the data set (i.e., the columns of the data table) by 1) centering them (`option center = TRUE` after pre-processing all variables have mean equals to 0) and 2) scaling them (`option scale = TRUE` after pre-processing all variables have a sum of squares equals to \eqn{N - 1}, \eqn{N} being the number of rows).
 
 ## Plot the results
 
 ```{r plotPCA, fig.show = 'hide'}
 res.plot.pca <- OTAplot(
     resPCA = res.pca,
-    data = beers
+    data = wines, col4I = wineColors$oc,
     )
 ```
 
@@ -105,7 +106,7 @@ Here, the observation map shows how the observations (i.e., rows) are represente
 res.plot.pca$results.graphs$factorScoresI12
 ```
 
-The result in this plot showed that the first dimension separates `BlueMoon` from `Hofbrau`, and the second dimension separates `BlueMoon` and `Hofbrau` from `FranzDunkel` and `FranzNatur`.
+The wines are colored according to their type (i.e., `red`, `white` or `rosé` in this figures. The result in this plot showed that the first dimension separates all `red` wines from `white` and `rosé`, and the second dimension separates `white` from `rosé`.
 
 ### Circle of correlation
 
@@ -117,7 +118,7 @@ In this figure, an angle closer to 0° indicates a correlation close to 1; an an
 res.plot.pca$results.graphs$cosineCircleArrowJ12
 ```
 
-This circle of correlation plot illustrates that Dimension 1 is `Sweet` and `Alcoholic` versus `Yeast`, `Hay`, `Bitter`, `Cereal`, and `Toasted`; Dimension 2 is `Acid` and `Fermented` versus `Cereal` and `Toasted`. Interestingly, `Acid` and `Fermented` are orthogonal to `Sweet` and `Hay` (which are anti-correlated from each other) on the first two dimension. On these two dimensions, `Cereal` and `Toasted` are negatively correlated with `Malt` and `Hop`.
+This circle of correlation plot illustrates that Dimension 1 is `Tannin`, `Astringent`, `Woody`, and `Alcohol` (as well as `Price` and `Spicy`) versus `Hedonic` (as well as `Sugar`, `Sweet`, `Floral`, `Acidic`, `Vegetal`, and `Acidity`); Dimension 2 is `Fruity`, `Spicy`, `Sugar` and `Sweet` versus `Acidity`, `Floral`, `Acidic`, `Price`, and `Vegetal`. Interestingly, `Price`, as well as the anti-correlated `Sweet` and `Sugar`, are orthogonal to `Spicy`, `Acidity`, `Acidic`, `Floral`, and `Vegetal`, where `Spicy` is anti-correlated to the other variables.
 
 ## Inference plots and results
 
@@ -126,7 +127,7 @@ The inference analysis of PCA (performed by `OTAplotInference`) includes bootstr
 ```{r plotPCAinference, fig.show = 'hide', warning = FALSE, message = FALSE, results = FALSE}
 res.plot.pca.inference <- OTAplotInference(
     resPCA = res.pca,
-    data = beers
+    data = wines, col4I = wineColors$oc, 
     ) %>% suppressMessages()
 ```
 
@@ -152,4 +153,4 @@ res.plot.pca.inference$results.graphs$BR1
 res.plot.pca.inference$results.graphs$BR2
 ```
 
-The results show no significant factor scores for both dimensions that is reliably different from 0.
+The results show that `Astringent` is the only significant contributor to Dimension 1, and there is no significant factor scores for Dimension 1 that is reliably different from 0.
