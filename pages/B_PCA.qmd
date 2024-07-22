@@ -18,13 +18,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this vignette we show how to perform a principal component analysis
 
-## Load the libraries
-
-The following code loads the libraries needed for the analysis:
-
-```{r loadlib, message = FALSE, warning = FALSE,error = FALSE}
+```{r loadlib, fig.show = 'hide', message = FALSE, warning = FALSE, error = FALSE}
+## The following code loads the libraries needed for the analysis:
 library(dplyr)
 library(ExPosition)
 library(knitr)
@@ -32,54 +28,51 @@ library(kableExtra)
 library(ggplot2)
 library(InPosition)
 library(R4SPISE2022)
+
+## Ensures reproducibility of bootstrap and permutations
 set.seed(564)
-```
 
 ## Load the Wine data
-
-With the following command
-
-```{r winesOf3Colors}
 data("winesOf3Colors", package = "data4PCCAR")
 wines <- winesOf3Colors$winesDescriptors[,4:17]
-```
 
-```{r hidden.colors, echo = TRUE}
-wineColors <- list()
-wineColors$oc <- as.matrix(as.character(recode(winesOf3Colors$winesDescriptors$color, red = 'indianred4', 
-                white = 'gold', rose = 'lightpink2')))
-wineColors$gc <- as.matrix(c(red = 'indianred4', 
+## Define colors...
+### of the wines...
+wineColors <- list(
+  oc = cbind(as.character(recode(
+    winesOf3Colors$winesDescriptors$color,
+    red = 'indianred4', 
+    white = 'gold',
+    rose = 'lightpink2'))),
+  gc = cbind(c(red = 'indianred4', 
                 white = 'gold', rose = 'lightpink2'))
-
-varColors <- list()
-varColors$oc[[1]] <- as.matrix(rep("darkorange1", 4))
-varColors$oc[[2]] <- as.matrix(rep("olivedrab3", 8))
-    
-```
+)
+### ... and of the variables
+varColors <- list(
+  oc = list(
+    cbind(rep("darkorange1", 4)),
+    cbind(rep("olivedrab3", 8))
+  )
+)
 
 ## Run the Principal Component Analysis (PCA)
-
-```{r epPCA}
 res.pca <- epPCA(wines, 
                  center = TRUE, # Center the data
                  scale = TRUE, # Normalize the variables
                  graphs = FALSE) 
-```
+# By default, this function will preprocess the variables in the data set (i.e., the columns of the data table) by 1) centering them (`option center = TRUE` after pre-processing all variables have mean equals to 0) and 2) scaling them (`option scale = TRUE` after pre-processing all variables have a sum of squares equals to \eqn{N - 1}, \eqn{N} being the number of rows).
 
-By default, this function will preprocess the variables in the data set (i.e., the columns of the data table) by 1) centering them (`option center = TRUE` after pre-processing all variables have mean equals to 0) and 2) scaling them (`option scale = TRUE` after pre-processing all variables have a sum of squares equals to \eqn{N - 1}, \eqn{N} being the number of rows).
-
-## Plot the results
-
-```{r plotPCA, fig.show = 'hide'}
+## Generate the plots
 res.plot.pca <- OTAplot(
     resPCA = res.pca,
-    data = wines, col4I = wineColors$oc,
+    data = wines, 
+    col4I = wineColors$oc
     )
+## What's in the results:
+# -   `results.stats`: useful statistics after performing PCA, among which one can find the factor scores, loadings, eigenvalues, and contributions;
+# -   `results.graphs`: all the PCA graphs (heatmaps, screeplot, factor map, correlation circles, loading maps etc.)
+# -   `description.graphs`: the titles of these graphs, used as titles in the PPTX file.
 ```
-
--   `results.stats`: useful statistics after performing PCA, among which one can find the factor scores, loadings, eigenvalues, and contributions;
--   `results.graphs`: all the PCA graphs (heatmaps, screeplot, factor map, correlation circles, loading maps etc.)
--   `description.graphs`: the titles of these graphs, used as titles in the PPTX file.
 
 ### Correlations of the variables
 
@@ -128,7 +121,8 @@ The inference analysis of PCA (performed by `OTAplotInference`) includes bootstr
 ```{r plotPCAinference, fig.show = 'hide', warning = FALSE, message = FALSE, results = FALSE}
 res.plot.pca.inference <- OTAplotInference(
     resPCA = res.pca,
-    data = wines, col4I = wineColors$oc, 
+    data = wines,
+    col4I = wineColors$oc
     ) %>% suppressMessages()
 ```
 

@@ -1,0 +1,38 @@
+---
+title: "References on PCA, PLS and MFA"
+format:
+  html:
+    code-fold: true
+    code-summary: "R code"
+---
+
+In this page, you will find useful references on the multivariate methods that we will use together during the workshop. These references provide a thorough foundation for understanding PCA, MFA, and PLS, offering both theoretical insights and practical applications.
+
+## Principal Component Analysis (PCA)
+
+Principal Component Analysis (PCA) is a statistical technique used to simplify the complexity of high-dimensional data while retaining most of its variation. PCA transforms the original data into a new set of uncorrelated variables called principal components. These components are ordered by the amount of variance they explain in the data. The first principal component explains the most variance, followed by the second, and so on. This method is particularly useful for reducing the dimensionality of the data, visualizing patterns, and identifying underlying structures.
+
+For more detailed information on PCA, refer to Dr. Hervé Abdi’s webpage: [PCA by Hervé Abdi.](https://personal.utdallas.edu/~herve/abdi-encyclopediaPCA2007-pretty.pdf)
+
+
+## Multiple Factor Analysis (MFA)
+
+Multiple Factor Analysis (MFA) is an extension of PCA designed for analyzing data sets that contain multiple groups of variables. Each group of variables is analyzed separately, and then the results are combined to provide a comprehensive analysis. MFA is particularly useful in situations where different sets of variables describe the same set of observations, such as in sensory analysis, where both sensory descriptors and instrumental measurements might be collected.
+
+Dr. Hervé Abdi’s detailed explanation of MFA can be found here: [MFA by Hervé Abdi.](https://personal.utdallas.edu/~herve/abdi-HCS-MFA2007-pretty.pdf)
+
+
+
+## Partial Least Squares (PLS)
+
+Partial Least Squares (PLS) is a statistical method that finds the fundamental relations between two matrices (predictors and responses). It is used when the predictor variables are many and highly collinear. PLS projects the predictor and response variables to new spaces to find the best linear regression model. This technique is widely used in chemometrics, bioinformatics, and social sciences for predictive modeling and feature extraction.
+
+For a comprehensive guide on PLS, you can refer to Dr. Hervé Abdi’s work: [PLS by Hervé Abdi.](https://personal.utdallas.edu/~herve/abdi-PLS-pretty.pdf)
+
+
+## Additionnal references
+
+For additional resources on these topics, François Husson’s MOOCs provide practical tutorials and examples: [Professor Husson's MOOC.](https://husson.github.io/MOOC_GB/index.html)
+
+
+

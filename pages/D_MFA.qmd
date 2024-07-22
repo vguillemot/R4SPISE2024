@@ -19,15 +19,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Prolegomena
 
-We will need the following libraries
-for this example, if these are not installed
-install them with `remotes` or `pak`
 ```{r libraries, include=TRUE}
+# You will need the following libraries
+# for this example, if these are not installed
+# install them with `remotes`, `pak`
+
 # de-comment the following lines to
 # install missing packages
-#install.packages("pak")
+# install.packages("pak")
 # pak::pak('dplyr')
 library(dplyr)
 library(knitr)
@@ -50,43 +50,7 @@ library(FactoMineR)
 library(factoextra)
 ```
 
-
-# How to run an MFA
-
-
-`FactoMineR` is the
- standard *R*-package for running MFA.
- As the name indicates,
- the function `FactoMineR::MFA`
- will run the MFA.
- 
-
-
-# The Data
-
-The illustrative (albeit fictitious)  
-data used for this example
-come from a chapter 
-by Hervé Abdi and Dominique
-Valentin: 
-Multiple factor analysis. 
-In N.J. Salkind (Ed.): 
-*Encyclopedia of Measurement and Statistics*. 
-Thousand Oaks (CA): Sage. pp. 657—663.
-This chapter can be downloaded 
-from the home page of Hervé Abdi:
-`https://personal.utdallas.edu/~herve/`
-(look for number C40) or
-directly as
-`https://personal.utdallas.edu/~herve/Abdi-MFA2007-pretty.pdf`).
-
-As long as you are there, you can also have a 
-look at:
-
-`https://personal.utdallas.edu/~herve/abdi-WiresCS-mfa-2013.pdf`
-This data set is part of the `ExPosition` package
-
-In this example, three different assessors
+We illustrate MFA with the [6 wines and 3 assessors data-set](A_Data.qmd#second-data-set). In this example, three different assessors
 (named e1, e2, and e3)
 evaluated 6 wines using their own descriptors.
 
@@ -94,7 +58,7 @@ evaluated 6 wines using their own descriptors.
 data('wines2007', package = "ExPosition")
 # your data (a concatenated data tables)
 # Have a look
-wines2007$data.
+wines2007$data
 # a data frame with one row that specifies the table membership of each column of `wines2007$data`
 # run mfa
 group4MFA <- summary(as.factor(t(wines2007$table)))
@@ -103,25 +67,34 @@ resMFA <- FactoMineR::MFA(wines2007$data, # data table
                           group = group4MFA,
                           name.group = name.group4MFA,
                           graph = FALSE)
+# The list `resMFA` contains all the information 
+# needed to interpret the results of the analysis.
 ```
 
-## Where are the results you need:
 
-The list `resMFA` contains all the informtion 
-needed to interpret the results of the analysis.
+## The $\mathbf{R_v}$ coefficient matrix
 
-
-
-
-### The $\mathbf{R_v}$ coefficient matrix
-
-```{r Rv}
+A first step is to look at the $R_V$ matrix---A
+ matrix that stores the values of the $R_v$
+ coefficient between pairs of the original data tables
+ (and also with the whole MFA).
+ 
+For MFA, these coefficients are only descriptive
+ and can be interpreted like a squared coefficient of
+ correlation for matrices: a value close to 1 for a pair
+ of data tables
+ indicates that these two tables are
+ storing similar information, a value close
+ to zero indicates that these tables
+ store independent information.
+ 
+```{r Rv, fig.height = 5, fig.width = 5}
 # a nice heatmap
-
 resMFA$group$RV %>%
   as_tibble(rownames = "rows") %>%
   pivot_longer(-1, names_to = "cols") %>%
-    mutate(cols = factor(cols, levels = rev(unique(cols)))) %>%
+    mutate(
+      cols = factor(cols, levels = rev(unique(cols)))) %>%
   ggplot(aes(x = rows, y = cols)) +
   geom_tile(aes(fill = value)) +  
   geom_text(aes(label = round(value, 2)), color = "white", fontface = "bold") +  
@@ -129,7 +102,11 @@ resMFA$group$RV %>%
   coord_equal() + 
   scale_x_discrete(position = "top") +
   labs(x = "", y = "", fill) +
-  theme_bw()
+  theme_minimal() + 
+  # theme(text = element_text())
+  geom_hline(yintercept = 1.5, color = "white") + 
+  geom_vline(xintercept = 3.5, color = "white")
+
 
 # col <- colorRampPalette(
 #   c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA")
@@ -146,28 +123,11 @@ resMFA$group$RV %>%
 # print(plot.RV)
 ```
  
-A first step is to look at the $R_V$ matrix---A
-matrix that stores 
-  the values of the $R_v$
- coefficient between pairs of the original data tables
- (adn also with the whole MFA).
- 
- For MFA, these coefficients are only descriptive
- and can be interpreted like a squared coefficient of
- correlation for matrices: a value close to 1 for a pair
- of data tables
- indicates that these two tables are
- storing similar information, a value close
- to zero indicates that these tables
- store independent information.
- 
-<!-- HeatMap around here -->
-
  
 
-#### Weights (alpha in the paper) applied to each data table
+## Weights (alpha in the paper) applied to each data table
 
-You can show the alphas with a barplot 
+You can show the alphas ($\boldsymbol{\alpha}$) with a barplot.
 
 ```{r alpha}
 #Eig.tab <- demo.mfa.2007$mexPosition.Data$Compromise$compromise.eigs
@@ -175,12 +135,17 @@ Eig.tab <- c(resMFA$separate.analyses$E1$eig[1],
              resMFA$separate.analyses$E1$eig[2],
              resMFA$separate.analyses$E1$eig[3])
 Alpha <- 1/sqrt(Eig.tab)
+
+tibble(Assessor = paste0("E", 1:3),
+       Alpha = Alpha) %>%
+  ggplot(aes(Assessor, Alpha, fill = Assessor)) + 
+  geom_col(show.legend = FALSE) + 
+  theme_bw() + 
+  labs(y = "", title = "Weight applied to each table")
+
 ```
 
-### Main results:
-
-
-
+## Scree-plot
 
 ```{r eig}
 #Eig4scree <- demo.mfa.2007$mexPosition.Data$Table$eigs
@@ -193,7 +158,7 @@ fviz_screeplot(resMFA)
 
 
 
-#### Global factor scores of the rows: 
+## Global factor scores of the rows: 
 
 This shows how the rows are projected 
 onto the space from the point of all tables
@@ -208,7 +173,7 @@ fviz_mfa_ind(resMFA, col.ind = "cos2",
   repel = TRUE)
 ```
 
-#### Partial factor scores of the rows: how the rows are viewed from the persepctive of each table
+## Partial factor scores of the rows: how the rows are viewed from the persepctive of each table
 
 (You want to plot them with the global factor scores. 
 Please check out the example of DiSTATIS to see how you plot them.)
@@ -218,7 +183,7 @@ Please check out the example of DiSTATIS to see how you plot them.)
 fviz_mfa_ind(resMFA, partial = "all")
 ```
 
-#### Loadings of variables
+## Loadings of variables
 
 (You interpret them as in PCA.)
 
@@ -228,8 +193,16 @@ fviz_mfa_var(resMFA, "quanti.var", palette = "jco",
              repel = TRUE)
 ```
 
-#### Contributions
+## Contributions
 
 Left as an exercise.
 
+## Bonus for R users: How to run an MFA
+
+`FactoMineR` is the
+standard *R*-package for running MFA.
+As the name indicates,
+the function `FactoMineR::MFA`
+will run the MFA.
+ 
 
