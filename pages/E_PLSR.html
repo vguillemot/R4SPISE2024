@@ -164,6 +164,14 @@ window.Quarto = {
 <span class="menu-text">PLSC</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../pages/D_MFA.html"> 
+<span class="menu-text">MFA</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../pages/E_PLSR.html" aria-current="page"> 
+<span class="menu-text">PLS-R</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About us</span></a>
   </li>  
@@ -192,7 +200,7 @@ window.Quarto = {
   <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link" data-scroll-target="#load-the-data">Load the data</a></li>
   <li><a href="#two-tables-with-descriptors-and-other-supplementary-information" id="toc-two-tables-with-descriptors-and-other-supplementary-information" class="nav-link" data-scroll-target="#two-tables-with-descriptors-and-other-supplementary-information">Two tables with descriptors and other supplementary information</a>
   <ul class="collapse">
-  <li><a href="#pls-r-part-1-predicting-one-variable-with-a-data-table" id="toc-pls-r-part-1-predicting-one-variable-with-a-data-table" class="nav-link" data-scroll-target="#pls-r-part-1-predicting-one-variable-with-a-data-table">PLS-R Part 1: Predicting one variable with a data table</a></li>
+  <li><a href="#pls-r-predicting-one-variable-with-a-data-table" id="toc-pls-r-predicting-one-variable-with-a-data-table" class="nav-link" data-scroll-target="#pls-r-predicting-one-variable-with-a-data-table">PLS-R: Predicting one variable with a data table</a></li>
   <li><a href="#descriptors-and-supplementary-variable" id="toc-descriptors-and-supplementary-variable" class="nav-link" data-scroll-target="#descriptors-and-supplementary-variable">Descriptors and supplementary variable</a></li>
   </ul></li>
   <li><a href="#run-partial-least-square-regression-pls-r-on-the-two-tables" id="toc-run-partial-least-square-regression-pls-r-on-the-two-tables" class="nav-link" data-scroll-target="#run-partial-least-square-regression-pls-r-on-the-two-tables">Run Partial Least Square Regression (PLS-R) on the two tables</a></li>
@@ -276,8 +284,8 @@ window.Quarto = {
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(hedonic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="pls-r-part-1-predicting-one-variable-with-a-data-table" class="level3">
-<h3 class="anchored" data-anchor-id="pls-r-part-1-predicting-one-variable-with-a-data-table">PLS-R Part 1: Predicting one variable with a data table</h3>
+<section id="pls-r-predicting-one-variable-with-a-data-table" class="level3">
+<h3 class="anchored" data-anchor-id="pls-r-predicting-one-variable-with-a-data-table">PLS-R: Predicting one variable with a data table</h3>
 <ul>
 <li>The predictors (<strong>X</strong>): chemical data (<code>chemi</code>) that includes <code>acidity</code>, <code>alcohol</code>, <code>sugar</code>, and <code>tannin</code>.</li>
 <li>The predicted (<strong>Y</strong>): hedonic (<code>hedo</code>).</li>
