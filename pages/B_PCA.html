@@ -172,6 +172,14 @@ window.Quarto = {
 <span class="menu-text">PLS-R</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../pages/References.html"> 
+<span class="menu-text">References</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/FAQ.html"> 
+<span class="menu-text">FAQ</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About us</span></a>
   </li>  
@@ -196,16 +204,10 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#load-the-libraries" id="toc-load-the-libraries" class="nav-link active" data-scroll-target="#load-the-libraries">Load the libraries</a></li>
-  <li><a href="#load-the-wine-data" id="toc-load-the-wine-data" class="nav-link" data-scroll-target="#load-the-wine-data">Load the Wine data</a></li>
-  <li><a href="#run-the-principal-component-analysis-pca" id="toc-run-the-principal-component-analysis-pca" class="nav-link" data-scroll-target="#run-the-principal-component-analysis-pca">Run the Principal Component Analysis (PCA)</a></li>
-  <li><a href="#plot-the-results" id="toc-plot-the-results" class="nav-link" data-scroll-target="#plot-the-results">Plot the results</a>
-  <ul class="collapse">
-  <li><a href="#correlations-of-the-variables" id="toc-correlations-of-the-variables" class="nav-link" data-scroll-target="#correlations-of-the-variables">Correlations of the variables</a></li>
+  <li><a href="#correlations-of-the-variables" id="toc-correlations-of-the-variables" class="nav-link active" data-scroll-target="#correlations-of-the-variables">Correlations of the variables</a></li>
   <li><a href="#scree-plot" id="toc-scree-plot" class="nav-link" data-scroll-target="#scree-plot">Scree plot</a></li>
   <li><a href="#factor-scores-rows" id="toc-factor-scores-rows" class="nav-link" data-scroll-target="#factor-scores-rows">Factor scores (rows)</a></li>
   <li><a href="#circle-of-correlation" id="toc-circle-of-correlation" class="nav-link" data-scroll-target="#circle-of-correlation">Circle of correlation</a></li>
-  </ul></li>
   <li><a href="#inference-plots-and-results" id="toc-inference-plots-and-results" class="nav-link" data-scroll-target="#inference-plots-and-results">Inference plots and results</a>
   <ul class="collapse">
   <li><a href="#bootstrap-and-permutation-tests-on-the-eigenvalues" id="toc-bootstrap-and-permutation-tests-on-the-eigenvalues" class="nav-link" data-scroll-target="#bootstrap-and-permutation-tests-on-the-eigenvalues">Bootstrap and permutation tests on the eigenvalues</a></li>
@@ -236,86 +238,70 @@ window.Quarto = {
 </header>
 
 
-<p>In this vignette we show how to perform a principal component analysis</p>
-<section id="load-the-libraries" class="level2">
-<h2 class="anchored" data-anchor-id="load-the-libraries">Load the libraries</h2>
-<p>The following code loads the libraries needed for the analysis:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ExPosition)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(InPosition)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R4SPISE2022)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">564</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The following code loads the libraries needed for the analysis:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ExPosition)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(InPosition)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R4SPISE2022)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Ensures reproducibility of bootstrap and permutations</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">564</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the Wine data</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"winesOf3Colors"</span>, <span class="at">package =</span> <span class="st">"data4PCCAR"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>wines <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors[,<span class="dv">4</span><span class="sc">:</span><span class="dv">17</span>]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Define colors...</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">### of the wines...</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>wineColors <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">oc =</span> <span class="fu">cbind</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    winesOf3Colors<span class="sc">$</span>winesDescriptors<span class="sc">$</span>color,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">red =</span> <span class="st">'indianred4'</span>, </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">white =</span> <span class="st">'gold'</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">rose =</span> <span class="st">'lightpink2'</span>))),</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">gc =</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="at">red =</span> <span class="st">'indianred4'</span>, </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                <span class="at">white =</span> <span class="st">'gold'</span>, <span class="at">rose =</span> <span class="st">'lightpink2'</span>))</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">### ... and of the variables</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>varColors <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">oc =</span> <span class="fu">list</span>(</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="st">"darkorange1"</span>, <span class="dv">4</span>)),</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="st">"olivedrab3"</span>, <span class="dv">8</span>))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="do">## Run the Principal Component Analysis (PCA)</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>res.pca <span class="ot">&lt;-</span> <span class="fu">epPCA</span>(wines, </span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>                 <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="co"># Center the data</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                 <span class="at">scale =</span> <span class="cn">TRUE</span>, <span class="co"># Normalize the variables</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                 <span class="at">graphs =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, this function will preprocess the variables in the data set (i.e., the columns of the data table) by 1) centering them (`option center = TRUE` after pre-processing all variables have mean equals to 0) and 2) scaling them (`option scale = TRUE` after pre-processing all variables have a sum of squares equals to \eqn{N - 1}, \eqn{N} being the number of rows).</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="do">## Generate the plots</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>res.plot.pca <span class="ot">&lt;-</span> <span class="fu">OTAplot</span>(</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">resPCA =</span> res.pca,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> wines, </span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">col4I =</span> wineColors<span class="sc">$</span>oc</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="do">## What's in the results:</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># -   `results.stats`: useful statistics after performing PCA, among which one can find the factor scores, loadings, eigenvalues, and contributions;</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co"># -   `results.graphs`: all the PCA graphs (heatmaps, screeplot, factor map, correlation circles, loading maps etc.)</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># -   `description.graphs`: the titles of these graphs, used as titles in the PPTX file.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="load-the-wine-data" class="level2">
-<h2 class="anchored" data-anchor-id="load-the-wine-data">Load the Wine data</h2>
-<p>With the following command</p>
-<div class="cell">
-<details class="code-fold">
-<summary>R code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"winesOf3Colors"</span>, <span class="at">package =</span> <span class="st">"data4PCCAR"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>wines <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors[,<span class="dv">4</span><span class="sc">:</span><span class="dv">17</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>R code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wineColors <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>wineColors<span class="sc">$</span>oc <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(winesOf3Colors<span class="sc">$</span>winesDescriptors<span class="sc">$</span>color, <span class="at">red =</span> <span class="st">'indianred4'</span>, </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">white =</span> <span class="st">'gold'</span>, <span class="at">rose =</span> <span class="st">'lightpink2'</span>)))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>wineColors<span class="sc">$</span>gc <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">c</span>(<span class="at">red =</span> <span class="st">'indianred4'</span>, </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">white =</span> <span class="st">'gold'</span>, <span class="at">rose =</span> <span class="st">'lightpink2'</span>))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>varColors <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>varColors<span class="sc">$</span>oc[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">rep</span>(<span class="st">"darkorange1"</span>, <span class="dv">4</span>))</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>varColors<span class="sc">$</span>oc[[<span class="dv">2</span>]] <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">rep</span>(<span class="st">"olivedrab3"</span>, <span class="dv">8</span>))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="run-the-principal-component-analysis-pca" class="level2">
-<h2 class="anchored" data-anchor-id="run-the-principal-component-analysis-pca">Run the Principal Component Analysis (PCA)</h2>
-<div class="cell">
-<details class="code-fold">
-<summary>R code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res.pca <span class="ot">&lt;-</span> <span class="fu">epPCA</span>(wines, </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="co"># Center the data</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">scale =</span> <span class="cn">TRUE</span>, <span class="co"># Normalize the variables</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">graphs =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>By default, this function will preprocess the variables in the data set (i.e., the columns of the data table) by 1) centering them (<code>option center = TRUE</code> after pre-processing all variables have mean equals to 0) and 2) scaling them (<code>option scale = TRUE</code> after pre-processing all variables have a sum of squares equals to , being the number of rows).</p>
-</section>
-<section id="plot-the-results" class="level2">
-<h2 class="anchored" data-anchor-id="plot-the-results">Plot the results</h2>
-<div class="cell">
-<details class="code-fold">
-<summary>R code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca <span class="ot">&lt;-</span> <span class="fu">OTAplot</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">resPCA =</span> res.pca,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> wines, <span class="at">col4I =</span> wineColors<span class="sc">$</span>oc,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<ul>
-<li><code>results.stats</code>: useful statistics after performing PCA, among which one can find the factor scores, loadings, eigenvalues, and contributions;</li>
-<li><code>results.graphs</code>: all the PCA graphs (heatmaps, screeplot, factor map, correlation circles, loading maps etc.)</li>
-<li><code>description.graphs</code>: the titles of these graphs, used as titles in the PPTX file.</li>
-</ul>
 <section id="correlations-of-the-variables" class="level3">
 <h3 class="anchored" data-anchor-id="correlations-of-the-variables">Correlations of the variables</h3>
 <p>We can check the data by plotting the correlation matrix between the variables. This correlation matrix is where the components are extracted.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca<span class="sc">$</span>results.graphs<span class="sc">$</span>correlation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca<span class="sc">$</span>results.graphs<span class="sc">$</span>correlation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -332,7 +318,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca<span class="sc">$</span>results.graphs<span class="sc">$</span>scree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca<span class="sc">$</span>results.graphs<span class="sc">$</span>scree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -350,7 +336,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca<span class="sc">$</span>results.graphs<span class="sc">$</span>factorScoresI12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca<span class="sc">$</span>results.graphs<span class="sc">$</span>factorScoresI12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -369,7 +355,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca<span class="sc">$</span>results.graphs<span class="sc">$</span>cosineCircleArrowJ12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca<span class="sc">$</span>results.graphs<span class="sc">$</span>cosineCircleArrowJ12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -381,17 +367,17 @@ window.Quarto = {
 </div>
 <p>This circle of correlation plot illustrates that Dimension 1 is <code>Tannin</code>, <code>Astringent</code>, <code>Woody</code>, and <code>Alcohol</code> (as well as <code>Price</code> and <code>Spicy</code>) versus <code>Hedonic</code> (as well as <code>Sugar</code>, <code>Sweet</code>, <code>Floral</code>, <code>Acidic</code>, <code>Vegetal</code>, and <code>Acidity</code>); Dimension 2 is <code>Fruity</code>, <code>Spicy</code>, <code>Sugar</code> and <code>Sweet</code> versus <code>Acidity</code>, <code>Floral</code>, <code>Acidic</code>, <code>Price</code>, and <code>Vegetal</code>. Interestingly, <code>Price</code>, as well as the anti-correlated <code>Sweet</code> and <code>Sugar</code>, are orthogonal to <code>Spicy</code>, <code>Acidity</code>, <code>Acidic</code>, <code>Floral</code>, and <code>Vegetal</code>, where <code>Spicy</code> is anti-correlated to the other variables.</p>
 </section>
-</section>
 <section id="inference-plots-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="inference-plots-and-results">Inference plots and results</h2>
 <p>The inference analysis of PCA (performed by <code>OTAplotInference</code>) includes bootstrap test of the proportion of variance explained, permutation tests of the eigenvalues, the bootstrap tests of the column factor scores <span class="math inline">\(\mathbf{G}\)</span> (i.e., the right singular vectors scaled to have the variance of each dimension equals the corresponding singular value; <span class="math inline">\(\mathbf{G} = \mathbf{Q}\boldsymbol{\Delta}\)</span> with <span class="math inline">\(\mathbf{X = P}\boldsymbol{\Delta}\mathbf{Q}^\top\)</span>). These column factor scores are stored as <code>fj</code> in the output of <code>epPCA</code>.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca.inference <span class="ot">&lt;-</span> <span class="fu">OTAplotInference</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">resPCA =</span> res.pca,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> wines, <span class="at">col4I =</span> wineColors<span class="sc">$</span>oc, </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca.inference <span class="ot">&lt;-</span> <span class="fu">OTAplotInference</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">resPCA =</span> res.pca,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> wines,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">col4I =</span> wineColors<span class="sc">$</span>oc</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="bootstrap-and-permutation-tests-on-the-eigenvalues" class="level3">
@@ -400,7 +386,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca.inference<span class="sc">$</span>results.graphs<span class="sc">$</span>scree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca.inference<span class="sc">$</span>results.graphs<span class="sc">$</span>scree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -418,7 +404,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca.inference<span class="sc">$</span>results.graphs<span class="sc">$</span>BR1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca.inference<span class="sc">$</span>results.graphs<span class="sc">$</span>BR1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -431,7 +417,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca.inference<span class="sc">$</span>results.graphs<span class="sc">$</span>BR2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res.plot.pca.inference<span class="sc">$</span>results.graphs<span class="sc">$</span>BR2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>

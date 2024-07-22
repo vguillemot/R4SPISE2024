@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>R4SPISE2024 - A Sensory Data Set on Wines of The World</title>
+<title>R4SPISE2024 - Two Sensory Data Set on Wines of The World</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,6 +145,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">PLS-R</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../pages/References.html"> 
+<span class="menu-text">References</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/FAQ.html"> 
+<span class="menu-text">FAQ</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About us</span></a>
   </li>  
@@ -169,11 +177,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a>
+  <li><a href="#first-data-set" id="toc-first-data-set" class="nav-link active" data-scroll-target="#first-data-set">First data-set</a>
   <ul class="collapse">
   <li><a href="#four-tables" id="toc-four-tables" class="nav-link" data-scroll-target="#four-tables">Four tables</a></li>
   <li><a href="#the-sensory-scores" id="toc-the-sensory-scores" class="nav-link" data-scroll-target="#the-sensory-scores">The sensory scores</a></li>
   </ul></li>
+  <li><a href="#second-data-set" id="toc-second-data-set" class="nav-link" data-scroll-target="#second-data-set">Second data-set</a></li>
   </ul>
 </nav>
     </div>
@@ -182,7 +191,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">A Sensory Data Set on Wines of The World</h1>
+<h1 class="title">Two Sensory Data Set on Wines of The World</h1>
 </div>
 
 
@@ -208,23 +217,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span><span class="er">&lt;&lt;&lt;&lt;&lt;&lt;</span> HEAD</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>To load the data, use the following command</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data with the following commands</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"winesOf3Colors"</span>, <span class="at">package =</span> <span class="st">"data4PCCAR"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the colors for the plots</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>wineColors <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors<span class="sc">$</span>color</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>wineColors <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">recode</span>(wineColors, <span class="at">red =</span> <span class="st">'indianred4'</span>, <span class="at">white =</span> <span class="st">'gold'</span>, <span class="at">rose =</span> <span class="st">'lightpink2'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell">
-<details class="code-fold">
-<summary>R code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data with the following commands</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt;&gt;&gt;&gt;&gt; 777cc1f2b89aa51d4ed2c66b13fffc418a1dbf37</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"winesOf3Colors"</span>, <span class="at">package =</span> <span class="st">"data4PCCAR"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>wineColors <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors<span class="sc">$</span>color</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>wineColors <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">recode</span>(wineColors, <span class="at">red =</span> <span class="st">'indianred4'</span>, </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">white =</span> <span class="st">'gold'</span>, <span class="at">rose =</span> <span class="st">'lightpink2'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<section id="data" class="level1">
-<h1>Data</h1>
+<section id="first-data-set" class="level1">
+<h1>First data-set</h1>
 <p>The data for the wines of the 3 colors example are shown in the following tables for the 3 countries of origin: Argentina, Canada, and USA.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Argentina</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Canada</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">USA</a></li></ul>
@@ -1062,9 +1063,149 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="second-data-set" class="level1">
+<h1>Second data-set</h1>
+<p>The illustrative (albeit fictitious) data used for this example come from a chapter by Hervé Abdi and Dominique Valentin: Multiple factor analysis. In N.J. Salkind (Ed.): <em>Encyclopedia of Measurement and Statistics</em>. Thousand Oaks (CA): Sage. pp.&nbsp;657—663. This chapter can be downloaded from the <a href="https://personal.utdallas.edu/~herve/">home page of Hervé Abdi</a>: (look for number C40) or directly <a href="https://personal.utdallas.edu/~herve/Abdi-MFA2007-pretty.pdf">here</a>).</p>
+<p>In this example, three different assessors (named e1, e2, and e3) evaluated 6 wines on a 9-point scale using their own descriptors:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Assessor</th>
+<th>Descriptors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>e1</td>
+<td><code>fruity</code>, <code>woody</code>, <code>coffee</code></td>
+</tr>
+<tr class="even">
+<td>e2</td>
+<td><code>red.fruit</code>, <code>roasted</code>, <code>vanillin</code>, <code>woody</code></td>
+</tr>
+<tr class="odd">
+<td>e3</td>
+<td><code>fruity</code>, <code>butter</code>, <code>woody</code></td>
+</tr>
+</tbody>
+</table>
+<p>The scores are presented in the following table.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">'wines2007'</span>, <span class="at">package =</span> <span class="st">"ExPosition"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># your data (a concatenated data tables)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Have a look at the table:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>wines2007<span class="sc">$</span>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e1.fruity</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e1.woody</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e1.coffee</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e2.red.fruit</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e2.roasted</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e2.vanillin</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e2.woody</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e3.fruity</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e3.butter</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">e3.woody</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">W1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">W2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">W3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">W4</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">W5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">W6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">5</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->

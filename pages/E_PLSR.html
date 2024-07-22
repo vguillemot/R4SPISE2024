@@ -172,6 +172,14 @@ window.Quarto = {
 <span class="menu-text">PLS-R</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../pages/References.html"> 
+<span class="menu-text">References</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/FAQ.html"> 
+<span class="menu-text">FAQ</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About us</span></a>
   </li>  
@@ -196,15 +204,12 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#load-the-course-library" id="toc-load-the-course-library" class="nav-link active" data-scroll-target="#load-the-course-library">Load the course library</a></li>
-  <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link" data-scroll-target="#load-the-data">Load the data</a></li>
-  <li><a href="#two-tables-with-descriptors-and-other-supplementary-information" id="toc-two-tables-with-descriptors-and-other-supplementary-information" class="nav-link" data-scroll-target="#two-tables-with-descriptors-and-other-supplementary-information">Two tables with descriptors and other supplementary information</a>
+  <li><a href="#two-tables-with-descriptors-and-other-supplementary-information" id="toc-two-tables-with-descriptors-and-other-supplementary-information" class="nav-link active" data-scroll-target="#two-tables-with-descriptors-and-other-supplementary-information">Two tables with descriptors and other supplementary information</a>
   <ul class="collapse">
   <li><a href="#pls-r-predicting-one-variable-with-a-data-table" id="toc-pls-r-predicting-one-variable-with-a-data-table" class="nav-link" data-scroll-target="#pls-r-predicting-one-variable-with-a-data-table">PLS-R: Predicting one variable with a data table</a></li>
   <li><a href="#descriptors-and-supplementary-variable" id="toc-descriptors-and-supplementary-variable" class="nav-link" data-scroll-target="#descriptors-and-supplementary-variable">Descriptors and supplementary variable</a></li>
   </ul></li>
-  <li><a href="#run-partial-least-square-regression-pls-r-on-the-two-tables" id="toc-run-partial-least-square-regression-pls-r-on-the-two-tables" class="nav-link" data-scroll-target="#run-partial-least-square-regression-pls-r-on-the-two-tables">Run Partial Least Square Regression (PLS-R) on the two tables</a></li>
-  <li><a href="#generate-the-figures" id="toc-generate-the-figures" class="nav-link" data-scroll-target="#generate-the-figures">Generate the figures</a>
+  <li><a href="#pls-r" id="toc-pls-r" class="nav-link" data-scroll-target="#pls-r">PLS-R</a>
   <ul class="collapse">
   <li><a href="#correlation-between-the-two-tables" id="toc-correlation-between-the-two-tables" class="nav-link" data-scroll-target="#correlation-between-the-two-tables">Correlation between the two tables</a></li>
   <li><a href="#scree-plot" id="toc-scree-plot" class="nav-link" data-scroll-target="#scree-plot">Scree plot</a></li>
@@ -243,45 +248,52 @@ window.Quarto = {
 </header>
 
 
-<section id="load-the-course-library" class="level2">
-<h2 class="anchored" data-anchor-id="load-the-course-library">Load the course library</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R4SPISE2022)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the course library</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(R4SPISE2022)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the data</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"winesOf3Colors"</span>, <span class="at">package =</span> <span class="st">"data4PCCAR"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Define colors...</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">### of the wines...</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>wineColors <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">oc =</span> <span class="fu">cbind</span>(<span class="fu">as.character</span>(<span class="fu">recode</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    winesOf3Colors<span class="sc">$</span>winesDescriptors<span class="sc">$</span>color,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">red =</span> <span class="st">'indianred4'</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">white =</span> <span class="st">'gold'</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">rose =</span> <span class="st">'lightpink2'</span>))),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">gc =</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="at">red =</span> <span class="st">'indianred4'</span>, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">white =</span> <span class="st">'gold'</span>, <span class="at">rose =</span> <span class="st">'lightpink2'</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">### ... and of the variables</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>varColors <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">oc =</span> <span class="fu">list</span>(</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="st">"darkorange1"</span>, <span class="dv">4</span>)),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="st">"olivedrab3"</span>, <span class="dv">1</span>))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="load-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="load-the-data">Load the data</h2>
-<p>With the following command</p>
-<div class="cell">
-<details class="code-fold">
-<summary>R code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"winesOf3Colors"</span>, <span class="at">package =</span> <span class="st">"data4PCCAR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>More information on the dataset is available on the corresponding vignette: <code>vignette("A3_DataWines")</code>.</p>
-</section>
 <section id="two-tables-with-descriptors-and-other-supplementary-information" class="level2">
 <h2 class="anchored" data-anchor-id="two-tables-with-descriptors-and-other-supplementary-information">Two tables with descriptors and other supplementary information</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>descr <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(origin, color, varietal)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>suppl <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Price)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>chemi <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Acidity, Alcohol, Sugar, Tannin)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>senso <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(fruity, floral, vegetal, </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>           spicy, woody, sweet, astringent)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>chemisenso <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Acidity, Alcohol, Sugar, Tannin, fruity, floral, vegetal,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>           spicy, woody, sweet, astringent)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>hedo <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(hedonic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>descr <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(origin, color, varietal)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>suppl <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Price)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>chemi <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Acidity, Alcohol, Sugar, Tannin)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>senso <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(fruity, floral, vegetal, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>           spicy, woody, sweet, astringent)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>chemisenso <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Acidity, Alcohol, Sugar, Tannin, fruity, floral, vegetal,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>           spicy, woody, sweet, astringent)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>hedo <span class="ot">&lt;-</span> winesOf3Colors<span class="sc">$</span>winesDescriptors <span class="sc">%&gt;%</span> </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(hedonic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="pls-r-predicting-one-variable-with-a-data-table" class="level3">
@@ -299,45 +311,43 @@ window.Quarto = {
 </ul>
 </section>
 </section>
-<section id="run-partial-least-square-regression-pls-r-on-the-two-tables" class="level2">
-<h2 class="anchored" data-anchor-id="run-partial-least-square-regression-pls-r-on-the-two-tables">Run Partial Least Square Regression (PLS-R) on the two tables</h2>
-<p>The <code>data4PCCAR::PLSR_SVD</code> function takes two entries of data tables. The first entry will be the predictor table (<strong>X</strong>) and the second entry will be the predicted table (<strong>Y</strong>) as in a regression equation: <span class="math inline">\(\mathbf{Y = \beta X + E}\)</span>. In RA, the dimensions maximize <span class="math inline">\(\beta\)</span> of each pair of latent variables.</p>
+<section id="pls-r" class="level2">
+<h2 class="anchored" data-anchor-id="pls-r">PLS-R</h2>
+<p>Like in a regression model, PLS considers two data tables:</p>
+<ul>
+<li>the first is the predictor table (<span class="math inline">\(\mathbf{X}\)</span>)</li>
+<li>the second is the (unidimensionnal) predicted table (<span class="math inline">\(\mathbf{y}\)</span>).</li>
+</ul>
+<p>It aims at solving the regression model [ = + . ]</p>
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res.plsr <span class="ot">&lt;-</span> data4PCCAR<span class="sc">::</span><span class="fu">PLSR_SVD</span>(chemi, hedo, <span class="dv">3</span>, <span class="at">inference =</span> <span class="cn">TRUE</span>, <span class="at">displayJack =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>res.plsr <span class="ot">&lt;-</span> data4PCCAR<span class="sc">::</span><span class="fu">PLSR_SVD</span>(chemi, hedo, <span class="dv">3</span>, <span class="at">inference =</span> <span class="cn">TRUE</span>, <span class="at">displayJack =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The function will center (to have means equal 0) and scale (to have the _standard deviation_ equal 1) all variables in both data tables.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Generate the figures</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## You might need to load these packages if the error is saying that it couldn't find some functions</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># library(PTCA4CATA) </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># library(data4PCCAR)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>res.plsr.plot <span class="ot">&lt;-</span> <span class="fu">PLSRplot</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">res =</span> res.plsr, <span class="co"># Output of tepPLS</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">displayJack =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color.obs =</span> wineColors, <span class="co"># &lt;optional&gt; colors of wines</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color.tab =</span> varColors, <span class="co"># &lt;optional&gt; colors of the two tables</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab1.name =</span> <span class="st">"Chemical data"</span>, <span class="co"># &lt;optional&gt; Name of Table 1 (for printing)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab2.name =</span> <span class="st">"Hedonic"</span>, <span class="co"># &lt;optional&gt; Name of Table 2 (for printing)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">DESIGN =</span> descr<span class="sc">$</span>color, <span class="co"># design for the wines</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab1 =</span> chemi,  <span class="co"># First data table</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab2 =</span> hedo)  <span class="co"># Second data table</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="do">## In this `PLSRplot` function, if `DESIGN` is specified. The latent variables will be colored according to the groups of the observations with the group means and their 95% bootstrap confidence intervals.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>The function will center (to have means equal 0) and scale (to have the <em>standard deviation</em> equal 1) all variables in both data tables.</p>
-</section>
-<section id="generate-the-figures" class="level2">
-<h2 class="anchored" data-anchor-id="generate-the-figures">Generate the figures</h2>
-<div class="cell">
-<details class="code-fold">
-<summary>R code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## You might need to load these packages if the error is saying that it couldn't find some functions</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(PTCA4CATA) </span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(data4PCCAR)</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>res.plsr.plot <span class="ot">&lt;-</span> <span class="fu">PLSRplot</span>(</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">res =</span> res.plsr, <span class="co"># Output of tepPLS</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">displayJack =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color.obs =</span> wineColors, <span class="co"># &lt;optional&gt; colors of wines</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color.tab =</span> varColors, <span class="co"># &lt;optional&gt; colors of the two tables</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab1.name =</span> <span class="st">"Chemical data"</span>, <span class="co"># &lt;optional&gt; Name of Table 1 (for printing)</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab2.name =</span> <span class="st">"Hedonic"</span>, <span class="co"># &lt;optional&gt; Name of Table 2 (for printing)</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">DESIGN =</span> descr<span class="sc">$</span>color, <span class="co"># design for the wines</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab1 =</span> chemi,  <span class="co"># First data table</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">tab2 =</span> hedo)  <span class="co"># Second data table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>In this <code>PLSRplot</code> function, if <code>DESIGN</code> is specified. The latent variables will be colored according to the groups of the observations with the group means and their 95% bootstrap confidence intervals.</p>
 <section id="correlation-between-the-two-tables" class="level3">
 <h3 class="anchored" data-anchor-id="correlation-between-the-two-tables">Correlation between the two tables</h3>
 <p>We can check the data by plotting first the correlation matrix between the two data sets. This correlation matrix is where the dimensions are extracted.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>heatmap.rxy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>heatmap.rxy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -354,7 +364,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>scree.eig.R2X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>scree.eig.R2X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -365,7 +375,7 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>scree.eig.R2Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>scree.eig.R2Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -376,11 +386,11 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>scree.sv.R2X</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>scree.sv.R2Y</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>Y.RESS.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>scree.sv.R2X</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>scree.sv.R2Y</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>Y.RESS.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -396,7 +406,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>YYhat.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>YYhat.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -415,7 +425,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>lv.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>lv.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -435,7 +445,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrW1.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrW1.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -446,7 +456,7 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrW2.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrW2.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -457,7 +467,7 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>LoadingsMap.X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>LoadingsMap.X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -468,7 +478,7 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrC1.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrC1.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -479,7 +489,7 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrC2.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>ctrC2.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -490,7 +500,7 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>LoadingsMap.Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>LoadingsMap.Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -510,7 +520,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>heatmap.rty</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>heatmap.rty</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -521,7 +531,7 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>cirCorY.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>cirCorY.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -541,7 +551,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>YYjack.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>YYjack.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -557,7 +567,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>R code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>Y.PRESS.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>res.plsr.plot<span class="sc">$</span>results.graphs<span class="sc">$</span>Y.PRESS.plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
