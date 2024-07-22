@@ -1,0 +1,70 @@
+---
+title: "Multiple Factor Analysis on Wines"
+format:
+  html:
+    code-fold: true
+    code-summary: "R code"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = TRUE, 
+  # dev = "svg",
+  # fig.ext = "svg", 
+  fig.width = 7, 
+  fig.height = 7
+)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(ggplot2)
+library(TExPosition)
+library(data4PCCAR)
+```
+
+## Load the course library
+
+```{r library, warning = FALSE, message = FALSE}
+library(R4SPISE2022)
+```
+
+## Load the data
+
+With the following command
+
+```{r winesOf3Colors}
+data("winesOf3Colors", package = "data4PCCAR")
+```
+
+```{r hidden colors, echo = FALSE}
+wineColors <- list()
+wineColors$oc <- as.matrix(as.character(recode(winesOf3Colors$winesDescriptors$color, red = 'indianred4', 
+                white = 'gold', rose = 'lightpink2')))
+wineColors$gc <- as.matrix(c(red = 'indianred4', 
+                white = 'gold', rose = 'lightpink2'))
+
+varColors <- list()
+varColors$oc[[1]] <- as.matrix(rep("darkorange1", 4))
+varColors$oc[[2]] <- as.matrix(rep("olivedrab3", 8))
+    
+```
+
+More information on the dataset is available on the corresponding vignette: `vignette("A3_DataWines")`.
+
+## Two tables with descriptors and other supplementary information
+
+```{r four table, echo = TRUE}
+descr <- winesOf3Colors$winesDescriptors %>% 
+    select(origin, color, varietal)
+suppl <- winesOf3Colors$winesDescriptors %>% 
+    select(Price)
+chemi <- winesOf3Colors$winesDescriptors %>% 
+    select(Acidity, Alcohol, Sugar, Tannin)
+senso <- winesOf3Colors$winesDescriptors %>% 
+    select(fruity, floral, vegetal, 
+           spicy, woody, sweet, astringent, 
+           hedonic)
+```
+
