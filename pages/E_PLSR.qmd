@@ -70,7 +70,7 @@ hedo <- winesOf3Colors$winesDescriptors %>%
     select(hedonic)
 ```
 
-### PLS-R Part 1: Predicting one variable with a data table
+### PLS-R: Predicting one variable with a data table
 
 * The predictors (**X**): chemical data (`chemi`) that includes `acidity`, `alcohol`, `sugar`, and `tannin`.
 * The predicted (**Y**): hedonic (`hedo`).
