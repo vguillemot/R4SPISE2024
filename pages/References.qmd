@@ -12,7 +12,10 @@ In this page, you will find useful references on the multivariate methods that w
 
 Principal Component Analysis (PCA) is a statistical technique used to simplify the complexity of high-dimensional data while retaining most of its variation. PCA transforms the original data into a new set of uncorrelated variables called principal components. These components are ordered by the amount of variance they explain in the data. The first principal component explains the most variance, followed by the second, and so on. This method is particularly useful for reducing the dimensionality of the data, visualizing patterns, and identifying underlying structures.
 
-For more detailed information on PCA, refer to Dr. Hervé Abdi’s webpage: [PCA by Hervé Abdi.](https://personal.utdallas.edu/~herve/abdi-encyclopediaPCA2007-pretty.pdf)
+For more detailed information on PCA, refer to 
+
+  * [Principal Component Analysis: The Basics](PrintOut-PCA4-SPISE2024FromRM3-July-2024-V2.pdf),
+  * or Dr. Hervé Abdi’s webpage: [PCA by Hervé Abdi.](https://personal.utdallas.edu/~herve/abdi-encyclopediaPCA2007-pretty.pdf), or to the 
 
 
 ## Multiple Factor Analysis (MFA)
