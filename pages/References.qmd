@@ -15,7 +15,7 @@ Principal Component Analysis (PCA) is a statistical technique used to simplify t
 For more detailed information on PCA, refer to 
 
   * [Principal Component Analysis: The Basics](PrintOut-PCA4-SPISE2024FromRM3-July-2024-V2.pdf),
-  * or Dr. Hervé Abdi’s webpage: [PCA by Hervé Abdi.](https://personal.utdallas.edu/~herve/abdi-encyclopediaPCA2007-pretty.pdf), or to the 
+  * or Dr. Hervé Abdi’s webpage: [PCA by Hervé Abdi.](https://personal.utdallas.edu/~herve/abdi-encyclopediaPCA2007-pretty.pdf).
 
 
 ## Multiple Factor Analysis (MFA)
