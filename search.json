@@ -11,7 +11,7 @@
     "href": "pages/References.html#principal-component-analysis-pca",
     "title": "References on PCA, PLS and MFA",
     "section": "Principal Component Analysis (PCA)",
-    "text": "Principal Component Analysis (PCA)\nPrincipal Component Analysis (PCA) is a statistical technique used to simplify the complexity of high-dimensional data while retaining most of its variation. PCA transforms the original data into a new set of uncorrelated variables called principal components. These components are ordered by the amount of variance they explain in the data. The first principal component explains the most variance, followed by the second, and so on. This method is particularly useful for reducing the dimensionality of the data, visualizing patterns, and identifying underlying structures.\nFor more detailed information on PCA, refer to Dr. Hervé Abdi’s webpage: PCA by Hervé Abdi."
+    "text": "Principal Component Analysis (PCA)\nPrincipal Component Analysis (PCA) is a statistical technique used to simplify the complexity of high-dimensional data while retaining most of its variation. PCA transforms the original data into a new set of uncorrelated variables called principal components. These components are ordered by the amount of variance they explain in the data. The first principal component explains the most variance, followed by the second, and so on. This method is particularly useful for reducing the dimensionality of the data, visualizing patterns, and identifying underlying structures.\nFor more detailed information on PCA, refer to\n\nPrincipal Component Analysis: The Basics,\nor Dr. Hervé Abdi’s webpage: PCA by Hervé Abdi.."
   },
   {
     "objectID": "pages/References.html#multiple-factor-analysis-mfa",
