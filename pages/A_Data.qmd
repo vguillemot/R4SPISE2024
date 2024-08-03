@@ -1,5 +1,5 @@
 ---
-title: "A Sensory Data Set on Wines of The World"
+title: "Two Sensory Data Set on Wines of The World"
 format:
   html:
     code-fold: true
@@ -21,35 +21,22 @@ library(kableExtra)
 library(ggplot2)
 ```
 
-```{r winesOf3Colors preliminary shown, eval = FALSE}
+```{r winesOf3Colors preliminary shown}
 # Before loading the data, load the following packages
 library(dplyr)
 library(knitr)
 library(kableExtra)
 library(ggplot2)
 
-<<<<<<< HEAD
-To load the data, use the following command
-
-```{r winesOf3Colors}
-# Load the data with the following commands
-# >>>>>>> 777cc1f2b89aa51d4ed2c66b13fffc418a1dbf37
-data("winesOf3Colors", package = "data4PCCAR")
-wineColors <- winesOf3Colors$winesDescriptors$color
-wineColors <- as.character(recode(wineColors, red = 'indianred4', 
-                white = 'gold', rose = 'lightpink2'))
-```
-
-```{r winesOf3Colors preliminary hidden, echo = FALSE}
 # Load the data with the following commands
 data("winesOf3Colors", package = "data4PCCAR")
+# Define the colors for the plots
 wineColors <- winesOf3Colors$winesDescriptors$color
-wineColors <- as.character(recode(wineColors, red = 'indianred4', 
-                white = 'gold', rose = 'lightpink2'))
+wineColors <- as.character(recode(wineColors, red = 'indianred4', white = 'gold', rose = 'lightpink2'))
 ```
 
 
-# Data
+# First data-set
 
 The data for the wines of the 3 colors example
 are shown in the following tables 
@@ -147,3 +134,45 @@ senso_long <- tibble(
     coord_flip() + 
     theme(legend.position = "bottom"))
 ```
+
+# Second data-set
+
+The illustrative (albeit fictitious) data
+used for this example
+come from a chapter 
+by Hervé Abdi and Dominique
+Valentin: 
+Multiple factor analysis. 
+In N.J. Salkind (Ed.): 
+*Encyclopedia of Measurement and Statistics*. 
+Thousand Oaks (CA): Sage. pp. 657—663.
+This chapter can be downloaded 
+from the [home page of Hervé Abdi](https://personal.utdallas.edu/~herve/):
+(look for number C40) or
+directly [here](https://personal.utdallas.edu/~herve/Abdi-MFA2007-pretty.pdf)).
+
+In this example, three different assessors
+(named e1, e2, and e3)
+evaluated 6 wines on a 9-point scale using their own descriptors:
+
+Assessor | Descriptors
+---------|-------------------
+ e1 | `fruity`, `woody`, `coffee`
+ e2 | `red.fruit`, `roasted`, `vanillin`, `woody`
+ e3 | `fruity`, `butter`, `woody`  
+  
+The scores are presented in the following table.
+
+
+```{r wines2007, eval = FALSE}
+data('wines2007', package = "ExPosition")
+# your data (a concatenated data tables)
+# Have a look at the table:
+wines2007$data
+```
+
+```{r wines2007 hidden, echo = FALSE}
+data('wines2007', package = "ExPosition")
+wines2007$data %>% kable("html")
+```
+

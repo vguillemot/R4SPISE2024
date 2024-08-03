@@ -1,1 +1,41 @@
 /* css styles */
+
+/* Apply justified text alignment to all paragraphs */
+p {
+  text-align: justify;
+}
+
+/* You can also justify other elements if needed */
+div {
+  text-align: justify;
+}
+
+/* Optionally, you can apply it to specific classes */
+.justify-text {
+  text-align: justify;
+}
+
+/* Additional styling for better readability */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+/* For a more comprehensive styling, you can include the following */
+/* Container styling for better layout control */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+

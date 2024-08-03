@@ -1,0 +1,51 @@
+---
+title: "Frequent errors"
+format:
+  html:
+    code-fold: true
+    code-summary: "R code"
+---
+
+## The library does not load
+
+After trying to load a library, you might get an error message, like this one:
+
+```{r error library, eval = FALSE}
+> library(missing_package)
+Error in library(missing_package) : 
+  there is no package called ‘missing_package’
+```
+
+In most cases, it means one of two things:
+
+  1. Maybe you misspelled its name which happens even to the best of us with libraries like `data4PCCAR`
+  2. The library you want to load has not been installed yet.
+  
+To install a library, use your favorite installation method: from the "Packages" tab, with a base command like `install.packages`, or with a command from packages like `pak` or `remotes`.
+
+Below we show the command using `pak` to install `data4PCCAR`:
+
+```{r install data4PCCAR, eval = FALSE}
+pak::pak("HerveAbdi/data4PCCAR")
+```
+
+
+## The function does not exist
+
+You might also get this error when trying to use a function:
+
+```{r missing function, eval = FALSE}
+> missing_function()
+Error in missing_function() : could not find function "missing_function"
+```
+
+In most cases, it means one of three (!) things:
+
+  1. Maybe you misspelled its name 
+  2. The function belongs to a library that has not be loaded yet
+  3. The function belongs to a library that has not been installed yet
+  
+So the first thinkg to do is to check the spelling of the function you want to use, and the second to check that you did not forget to load the library.
+
+For example, if this `missing_function` belongs to `missing_package`, then run `library(missing_package)` before trying to use your favorite function.
+  

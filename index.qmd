@@ -63,4 +63,3 @@ library(R4SPISE2022)
 ?OTAplot
 ```
 
-

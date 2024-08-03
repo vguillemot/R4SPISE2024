@@ -22,34 +22,31 @@ library(TExPosition)
 library(data4PCCAR)
 ```
 
-## Load the course library
 
 ```{r library, warning = FALSE, message = FALSE}
+## Load the course library
 library(R4SPISE2022)
-```
-
 ## Load the data
-
-With the following command
-
-```{r winesOf3Colors}
 data("winesOf3Colors", package = "data4PCCAR")
-```
-
-```{r hidden colors, echo = FALSE}
-wineColors <- list()
-wineColors$oc <- as.matrix(as.character(recode(winesOf3Colors$winesDescriptors$color, red = 'indianred4', 
-                white = 'gold', rose = 'lightpink2')))
-wineColors$gc <- as.matrix(c(red = 'indianred4', 
+## Define colors...
+### of the wines...
+wineColors <- list(
+  oc = cbind(as.character(recode(
+    winesOf3Colors$winesDescriptors$color,
+    red = 'indianred4', 
+    white = 'gold',
+    rose = 'lightpink2'))),
+  gc = cbind(c(red = 'indianred4', 
                 white = 'gold', rose = 'lightpink2'))
-
-varColors <- list()
-varColors$oc[[1]] <- as.matrix(rep("darkorange1", 4))
-varColors$oc[[2]] <- as.matrix(rep("olivedrab3", 1))
-    
+)
+### ... and of the variables
+varColors <- list(
+  oc = list(
+    cbind(rep("darkorange1", 4)),
+    cbind(rep("olivedrab3", 1))
+  )
+)
 ```
-
-More information on the dataset is available on the corresponding vignette: `vignette("A3_DataWines")`.
 
 ## Two tables with descriptors and other supplementary information
 
@@ -70,54 +67,33 @@ hedo <- winesOf3Colors$winesDescriptors %>%
     select(hedonic)
 ```
 
-### PLS-R Part 1: Predicting one variable with a data table
+### PLS-R: Predicting one variable with a data table
 
 * The predictors (**X**): chemical data (`chemi`) that includes `acidity`, `alcohol`, `sugar`, and `tannin`.
 * The predicted (**Y**): hedonic (`hedo`).
 
-
-```{r chemi, eval = FALSE, echo = FALSE, results='asis'}
-### First table: chemical data
-
-# fontsize <- 9.
-
-# chemi %>%
-#     kable("html", caption = "Table 1: Chemical data") %>%
-#     kable_styling("striped", position = "float_left", full_width = F)  %>%
-#     row_spec(1:nrow(chemi), 
-#     font_size = fontsize) %>%
-#     row_spec(0, angle = 0, align = "right", font_size = fontsize)
-```
-
-
-```{r senso, eval = FALSE, echo = FALSE}
-### Second table: sensory data
-# senso %>%
-#     kable("html", caption = "Table 2: Sensory data") %>%
-#     kable_styling("striped", position = "left", full_width = F)  %>%
-#     row_spec(1:nrow(senso), 
-#     font_size = fontsize) %>%
-#     row_spec(0, angle = 0, align = "right", font_size = fontsize)
-```
 
 ### Descriptors and supplementary variable
 
  * Descriptors: `origin`, `color` and `varietal`.
  * Supplementary variables: `Price`.
  
-## Run Partial Least Square Regression (PLS-R) on the two tables
+## PLS-R
 
-The `data4PCCAR::PLSR_SVD` function takes two entries of data tables. The first entry will be the predictor table (**X**) and the second entry will be the predicted table (**Y**) as in a regression equation: $\mathbf{Y = \beta X + E}$. In RA, the dimensions maximize $\beta$ of each pair of latent variables.
+Like in a regression model, PLS considers two data tables:
 
-```{r run, results = FALSE}
+  * the first is the predictor table ($\mathbf{X}$)
+  * the second is the (unidimensionnal) predicted table ($\mathbf{y}$).
+  
+It aims at solving the regression model
+\[
+  \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{e}.
+\]
+
+```{r run, fig.show='hide', message = FALSE, warning = FALSE, results = FALSE}
 res.plsr <- data4PCCAR::PLSR_SVD(chemi, hedo, 3, inference = TRUE, displayJack = TRUE)
-```
-
-The function will center (to have means equal 0) and scale (to have the _standard deviation_ equal 1) all variables in both data tables.
-
+# The function will center (to have means equal 0) and scale (to have the _standard deviation_ equal 1) all variables in both data tables.
 ## Generate the figures
-
-```{r PLSR plots, fig.show='hide', message = FALSE, warning = FALSE}
 ## You might need to load these packages if the error is saying that it couldn't find some functions
 # library(PTCA4CATA) 
 # library(data4PCCAR)
@@ -131,9 +107,10 @@ res.plsr.plot <- PLSRplot(
     DESIGN = descr$color, # design for the wines
     tab1 = chemi,  # First data table
     tab2 = hedo)  # Second data table
+## In this `PLSRplot` function, if `DESIGN` is specified. The latent variables will be colored according to the groups of the observations with the group means and their 95% bootstrap confidence intervals.
 ```
 
-In this `PLSRplot` function, if `DESIGN` is specified. The latent variables will be colored according to the groups of the observations with the group means and their 95% bootstrap confidence intervals.
+
 
 ### Correlation between the two tables
 

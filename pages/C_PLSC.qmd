@@ -6,7 +6,7 @@ format:
     code-summary: "R code"
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -25,34 +25,33 @@ library(PTCA4CATA)
 library(data4PCCAR)
 ```
 
-## Load the course library
 
 ```{r library, warning = FALSE, message = FALSE}
+## Load the course library
 library(R4SPISE2022)
-```
-
 ## Load the data
-
-With the following command
-
-```{r winesOf3Colors}
 data("winesOf3Colors", package = "data4PCCAR")
-```
-
-```{r hidden colors, echo = TRUE}
-wineColors <- list()
-wineColors$oc <- as.matrix(as.character(recode(winesOf3Colors$winesDescriptors$color, red = 'indianred4', 
-                white = 'gold', rose = 'lightpink2')))
-wineColors$gc <- as.matrix(c(red = 'indianred4', 
+## Define colors...
+### of the wines...
+wineColors <- list(
+  oc = cbind(as.character(recode(
+    winesOf3Colors$winesDescriptors$color,
+    red = 'indianred4', 
+    white = 'gold',
+    rose = 'lightpink2'))),
+  gc = cbind(c(red = 'indianred4', 
                 white = 'gold', rose = 'lightpink2'))
+)
+### ... and of the variables
+varColors <- list(
+  oc = list(
+    cbind(rep("darkorange1", 4)),
+    cbind(rep("olivedrab3", 8))
+  )
+)
 
-varColors <- list()
-varColors$oc[[1]] <- as.matrix(rep("darkorange1", 4))
-varColors$oc[[2]] <- as.matrix(rep("olivedrab3", 8))
-    
 ```
 
-More information on the dataset is available on the corresponding vignette: `vignette("A3_DataWines")`.
 
 ## Two tables with descriptors and other supplementary information
 
@@ -74,46 +73,20 @@ senso <- winesOf3Colors$winesDescriptors %>%
 -   First table: chemical data (`chemi`) that includes `acidity`, `alcohol`, `sugar`, and `tannin`.
 -   Second table: sensory data (`senso`) that includes `fruity`, `floral`, `vegetal`, `spicy`, `woody`, `sweet`, `astringent`, and `hedonic`.
 
-```{r chemi, eval = FALSE, echo = FALSE, results='asis'}
-### First table: chemical data
-
-# fontsize <- 9.
-
-# chemi %>%
-#     kable("html", caption = "Table 1: Chemical data") %>%
-#     kable_styling("striped", position = "float_left", full_width = F)  %>%
-#     row_spec(1:nrow(chemi), 
-#     font_size = fontsize) %>%
-#     row_spec(0, angle = 0, align = "right", font_size = fontsize)
-```
-
-```{r senso, eval = FALSE, echo = FALSE}
-### Second table: sensory data
-# senso %>%
-#     kable("html", caption = "Table 2: Sensory data") %>%
-#     kable_styling("striped", position = "left", full_width = F)  %>%
-#     row_spec(1:nrow(senso), 
-#     font_size = fontsize) %>%
-#     row_spec(0, angle = 0, align = "right", font_size = fontsize)
-```
 
 ### Descriptors and supplementary variable
 
 -   Descriptors: `origin`, `color` and `varietal`.
 -   Supplementary variables: `Price`.
 
+
+```{r run and plot, fig.show='hide', message = FALSE, warning = FALSE}
 ## Run Partial Least Square Correlation (PLS-C) on the two tables
 
-```{r run}
 res.pls <- tepPLS(chemi, senso, DESIGN = descr$color, graphs = FALSE)
-```
-
-The default of this function will center (to have means equal 0) and scale (to have the *sums of squares* equal 1) all variables in both data tables. The argument `DESIGN` indicates the groups of the observations and change how the observations are colored in the figures (when `graphs = TRUE`), but it does not change the results of PLS-C.
+### The default of this function will center (to have means equal 0) and scale (to have the *sums of squares* equal 1) all variables in both data tables. The argument `DESIGN` indicates the groups of the observations and change how the observations are colored in the figures (when `graphs = TRUE`), but it does not change the results of PLS-C.
 
 ## Generate the figures
-
-```{r TTA plots, fig.show='hide', message = FALSE, warning = FALSE}
-## You might need to load these packages if the error is saying that it couldn't find some functions
 
 res.pls.plot <- TTAplot(
     res = res.pls, # Output of tepPLS
@@ -124,9 +97,13 @@ res.pls.plot <- TTAplot(
     DESIGN = descr$color, # design for the wines
     tab1 = chemi,  # First data table
     tab2 = senso)  # Second data table
+
+# In `TTAplot`, if `DESIGN` is specified. The latent variables will be colored according to the groups of the observations with the group means and their 95% bootstrap confidence intervals.
+
 ```
 
-In this `TTAplot` function, if `DESIGN` is specified. The latent variables will be colored according to the groups of the observations with the group means and their 95% bootstrap confidence intervals.
+
+
 
 ### Correlation between the two tables
 

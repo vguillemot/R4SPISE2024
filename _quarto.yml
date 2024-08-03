@@ -16,6 +16,10 @@ website:
         text: MFA
       - href: pages/E_PLSR.qmd
         text: PLS-R
+      - href: pages/References.qmd
+        text: References
+      - href: pages/FAQ.qmd
+        text: FAQ
       - href: about.qmd
         text: About us
       - icon: github
